@@ -1,0 +1,47 @@
+* {
+    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  text-align: center;
+}
+
+.btn-provys {
+  background-color: #ffc90e;
+  border: 1px solid #222222;
+}
+
+.btn-provys:hover,
+.btn-provys:focus {
+  background-color: #997800
+}
+
+label {
+    font-weight: 400;
+}
+
+#toast {
+  padding: 10px;
+}
+#toast ul {
+  text-align: center;
+  list-style-type: none;
+  margin: 20px 0;
+}
+#toast ul li {
+  display: inline-block;
+  width: 160px;
+  margin: 10px;
+}
+#toast ul li img {
+  width: 100px;
+}
+.dx-toast-content {
+  min-width: 150px;
+  max-width: 300px;
+}
+
+
+
+

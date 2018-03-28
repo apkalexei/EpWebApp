@@ -1,0 +1,29 @@
+.search-again {
+    float: left;
+}
+
+.schedule-info {
+    float: right;
+    font-size: 150%;
+}
+
+.scheduler-header {
+    height: 45px;
+}
+
+@media only screen and (max-width: 480px) {
+
+    .search-again {
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .schedule-info {
+        float: right;
+        font-size: 90%;
+        margin-right: 9px;
+        max-width: 130px;
+        word-wrap: break-word;
+    }
+    
+}

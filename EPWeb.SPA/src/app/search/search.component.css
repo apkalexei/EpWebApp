@@ -1,0 +1,22 @@
+.well {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 15vw;
+}
+
+.btn-success.submit {
+    margin-top: 15px;
+    min-width: 150px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 480px) {
+    .well {
+        width: 100vw;
+        margin: none;
+        height: 100vw;
+    }
+}

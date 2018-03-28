@@ -1,0 +1,60 @@
+.navbar {
+    max-height: 70px;
+}
+.dropdown-menu li, .dropdown-toggle {
+    cursor: pointer;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    background: unset;
+}
+
+.container {
+    margin-top: 8px;
+}
+
+.navbar-right {
+    float: right;
+}
+
+.logo {
+    width: 204px;
+    height: 56px;
+    cursor: pointer;
+    background-image: url(../../../content/header/logo.png)
+}
+
+.logo:focus {
+    outline: none;
+}
+
+.logout-collapsed {
+    display: none;
+}
+
+.logout-collapse {
+    margin-top: 8px;
+}
+
+p {
+    color: #777;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+
+.right {
+    float:right;
+}
+
+@media only screen and (max-width: 480px) {
+
+    .logo {
+        margin-left: 15px;
+    }
+    .logout-collapsed {
+        float: right;
+        display: unset;
+        margin-right: 8px;
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,24 @@
+<div class="scheduler-header">
+  <div class="search-again">
+    <button type="submit" class="btn btn-default" (click)="searchAgain()">
+      <span class="glyphicon glyphicon-repeat"></span> Search again</button>
+  </div>
+  <div class="schedule-info">
+    Schedule for <strong>{{ productionGroupInfo?.name }} / {{ resourceDetail?.name }}</strong>
+  </div>
+</div>
+<div class="scheduler">
+  <dx-scheduler 
+    [dataSource]="resAllocs" 
+    [views]="adaptOptions.views" 
+    [editing]="false" 
+    [currentView]="adaptOptions.currentView"
+    [currentDate]="searchDate" 
+    [startDayHour]="7" 
+    [endDayHour]="24" 
+    [showAllDayPanel]="false" 
+    [height]="adaptOptions.size"
+    [showCurrentTimeIndicator]="true"
+    (onAppointmentFormCreated)="onAppointmentFormCreated($event)">
+  </dx-scheduler>
+</div>

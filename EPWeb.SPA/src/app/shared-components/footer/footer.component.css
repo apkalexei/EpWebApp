@@ -1,0 +1,25 @@
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0px;
+    height: 70px;
+    width: 100%;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 19px;
+    color: #777;
+    background-color: #fff;
+}
+
+.user-status {
+    display: none;
+}
+
+@media only screen and (max-width: 480px) {
+    footer {
+        height: 50px;
+        padding-top: 9px;
+    }
+    .user-status {
+        display: unset;
+    }
+}
