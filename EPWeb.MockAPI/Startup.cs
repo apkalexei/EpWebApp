@@ -42,6 +42,10 @@ namespace EPWeb.MockAPI
 
             services.AddScoped<IAuthRepository, AuthRepository>();
 
+            services.AddScoped<IResourceGroupRepository, ResourceGroupRepository>();
+
+            services.AddScoped<IResourceRepository, ResourceRepository>();
+
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -91,6 +95,7 @@ namespace EPWeb.MockAPI
             seeder.SeedResources(); */
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

@@ -11,6 +11,7 @@ namespace EPWeb.MockAPI.Helpers
             CreateMap<User, UserForReturnDto>();
             CreateMap<User, UserForRegisterDto>();
             CreateMap<User, UserForLoginDto>();
+            CreateMap<ResourceGroup, ResourceGroupForFilterDto>();
 
             CreateMap<UserForReturnDto, User>();
             CreateMap<UserForReturnDto, User>();

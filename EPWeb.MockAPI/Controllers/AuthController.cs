@@ -45,6 +45,9 @@ namespace EPWeb.MockAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLoginDto)
         {
+            if (!string.IsNullOrEmpty(userForLoginDto.Username))
+                userForLoginDto.Username = userForLoginDto.Username.ToLower();
+
             var userFromRepo = await _repository.Login(userForLoginDto.Username, userForLoginDto.Password);
 
             if (userFromRepo == null)
