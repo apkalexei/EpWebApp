@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EPWeb.MockAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +20,9 @@ namespace EPWeb.MockAPI.Data
             return resource;
         }
 
-        public async Task<Resource> GetResourceByResourceGroupId(int id)
+        public async Task<IEnumerable<Resource>> GetResourcesByResourceGroupId(int id)
         {
-            var resource = await _context.Resources.FirstOrDefaultAsync(r => r.ResourceGroup.Id == id);
+            var resource = await _context.Resources.Where(r => r.ResourceGroup.Id == id).ToListAsync();
             return resource;
         }
     }
