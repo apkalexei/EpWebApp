@@ -37,14 +37,15 @@ namespace EPWeb.MockAPI
             services.AddCors();
 
             services.AddAutoMapper();
-            
+
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddScoped<IAuthRepository, AuthRepository>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => {
+                .AddJwtBearer(options =>
+                {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -53,9 +54,11 @@ namespace EPWeb.MockAPI
                         ValidateAudience = false
                     };
                 });
+
+            services.AddTransient<Seed>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -64,9 +67,11 @@ namespace EPWeb.MockAPI
             else
             {
                 // Global error handling in production mode
-                app.UseExceptionHandler(builder => { 
+                app.UseExceptionHandler(builder =>
+                {
 
-                    builder.Run(async context => {
+                    builder.Run(async context =>
+                    {
 
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
@@ -80,6 +85,11 @@ namespace EPWeb.MockAPI
                     });
                 });
             }
+            
+            /* seeder -> seeding fake data whenever we start app */
+            /* seeder.SeedResourceGroups();
+            seeder.SeedResources(); */
+
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             app.UseMvc();
         }
