@@ -90,9 +90,8 @@ namespace EPWeb.MockAPI
                 });
             }
             
-            /* seeder -> seeding fake data whenever we start app */
-            /* seeder.SeedResourceGroups();
-            seeder.SeedResources(); */
+            /* seeder -> seeding fake data whenever we start app, Uncomment section below only in case of fresh and empty database to fill it with mock data */
+            /* seeder.SeedData(); */
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             app.UseAuthentication();
