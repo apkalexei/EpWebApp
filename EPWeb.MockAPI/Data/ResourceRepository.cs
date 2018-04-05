@@ -11,7 +11,7 @@ namespace EPWeb.MockAPI.Data
         private readonly DataContext _context;
         public ResourceRepository(DataContext context)
         {
-            this._context = context;
+            _context = context;
         }
         
         public async Task<Resource> GetResource(int id)

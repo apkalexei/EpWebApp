@@ -46,6 +46,8 @@ namespace EPWeb.MockAPI
 
             services.AddScoped<IResourceRepository, ResourceRepository>();
 
+            services.AddScoped<IResourceAllocationRepository, ResourceAllocationRepository>();
+
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

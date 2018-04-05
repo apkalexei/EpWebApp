@@ -15,15 +15,41 @@ namespace EPWeb.MockAPI.Data
 
         public void SeedData() 
         {
+            /* _context.Users.RemoveRange(_context.Users);
+            _context.ResourceGroups.RemoveRange(_context.ResourceGroups);
+            _context.Resources.RemoveRange(_context.Resources);
+            _context.ResourceAllocations.RemoveRange(_context.ResourceAllocations);
+            _context.SaveChanges(); */
+
             SeedResourceGroups();
             SeedResources();
             SeedResourceAllocations();
+            SeedUsers();
         }
 
+        private void SeedUsers() {
+
+            var userData = System.IO.File.ReadAllText("Data/UserSeedData.json");
+            var users = JsonConvert.DeserializeObject<List<User>>(userData);
+
+            foreach (var user in users)
+            {
+
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash("password", out passwordHash, out passwordSalt);
+
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                user.Username = user.Username.ToLower();
+
+                _context.Users.Add(user);
+            }
+
+            _context.SaveChanges();
+        }
+        
         private void SeedResourceGroups()
         {
-            /* _context.ResourceGroups.RemoveRange(_context.ResourceGroups);
-            _context.SaveChanges(); */
 
             var resourceGroupData = System.IO.File.ReadAllText("Data/ResourceGroupSeedData.json");
             var resourceGroups = JsonConvert.DeserializeObject<List<ResourceGroup>>(resourceGroupData);
@@ -37,8 +63,6 @@ namespace EPWeb.MockAPI.Data
         }
         private void SeedResources() 
         {
-            /* _context.Resources.RemoveRange(_context.Resources);
-            _context.SaveChanges(); */
 
             var resourceData = System.IO.File.ReadAllText("Data/ResourceSeedData.json");
             var resources = JsonConvert.DeserializeObject<List<Resource>>(resourceData);
@@ -53,6 +77,7 @@ namespace EPWeb.MockAPI.Data
 
         private void SeedResourceAllocations() 
         {
+
             var resAllocs = CreateResourceAllocations();
 
             foreach (var resAlloc in resAllocs)
@@ -76,6 +101,15 @@ namespace EPWeb.MockAPI.Data
             };
 
             return resAllocs;
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

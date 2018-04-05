@@ -10,7 +10,7 @@ namespace EPWeb.MockAPI.Data
         private readonly DataContext _context;
         public ResourceGroupRepository(DataContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public async Task<ResourceGroup> GetResourceGroup(int id)

@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "username": "DCIT",
+        "isAllowed": true
+    },
+    {
+        "id": 2,
+        "username": "Admin",
+        "isAllowed": true
+    }
+]
