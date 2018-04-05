@@ -3,6 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { NavigationEnd } from "@angular/router";
 import { DxResponsiveBoxComponent } from "devextreme-angular/ui/responsive-box";
 import { AdaptService } from './_services/adapt.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from './_models/user/User';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,7 @@ export class AppComponent {
 
   @ViewChild(DxResponsiveBoxComponent) box: DxResponsiveBoxComponent;
 
-  constructor(private adaptService: AdaptService, private authService: AuthService) {
+  constructor(private adaptService: AdaptService, private authService: AuthService, private jwtHelperService: JwtHelperService) {
 
     this.adaptService.adapt$.subscribe(item => {
       this.adaptOptions = this.adaptService.getOptionsForAdaptation(item);
@@ -28,11 +30,10 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.adaptation();
     const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user: User = JSON.parse(localStorage.getItem('user'));
     if (token) {
-      this.authService.decodedToken = token;
+      this.authService.decodedToken = this.jwtHelperService.decodeToken(token);
     }
     if (user) {
       this.authService.currentUser = user;

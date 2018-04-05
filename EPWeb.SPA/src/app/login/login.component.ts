@@ -11,7 +11,6 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 })
 export class LoginComponent implements OnInit {
 
-  model: any = {};
   loginForm: FormGroup
 
   constructor(
@@ -34,9 +33,13 @@ export class LoginComponent implements OnInit {
 
   /* Sends login request to authService */
   login() {
-    this.authService.login(this.loginForm.value);
-    this.router.navigate(['/search']);
-    this.notifyService.success("You have been successfully signed in.");
+    this.authService.login(this.loginForm.value).subscribe(data => {
+      this.notifyService.success("You have been successfully signed in.");
+    }, error => {
+      this.notifyService.error("Failed to sign in.");
+    }, () => {
+      this.router.navigate(['/search']);
+    });
   }
 
 }

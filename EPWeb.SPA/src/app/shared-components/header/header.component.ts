@@ -16,18 +16,20 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private notifyService: NotifyService) { }
 
   ngOnInit() {
-  }
-
-  loggedIn() {
     this.currentUser = this.authService.currentUser;
-    return this.authService.loggedIn();
   }
 
   logout() {
-    this.notifyService.success("Logged out.");
+    this.authService.userToken = null;
+    this.authService.currentUser = null;
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    this.notifyService.success("Logged out.");
     this.router.navigate(["/login"]);
+  }
+
+  loggedIn() {
+    return this.authService.loggedIn();
   }
 
 }
