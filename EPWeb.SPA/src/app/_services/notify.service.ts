@@ -18,7 +18,7 @@ export class NotifyService {
             message: content,
             closeOnClick: true,
             position: this.adaptOptions.notifyPosition
-        }, "success", 2000);
+        }, "success", 3500);
     }
 
     error(content: string) {
@@ -26,7 +26,7 @@ export class NotifyService {
             message: content,
             closeOnClick: true,
             position: this.adaptOptions.notifyPosition
-        }, "error", 2000);
+        }, "error", 3500);
     }
 
     info(content: string) {
@@ -34,7 +34,7 @@ export class NotifyService {
             message: content,
             closeOnClick: true,
             position: this.adaptOptions.notifyPosition
-        }, "info", 2000);
+        }, "info", 3500);
     }
 
     warning(content: string) {
@@ -42,7 +42,7 @@ export class NotifyService {
             message: content,
             closeOnClick: true,
             position: this.adaptOptions.notifyPosition
-        }, "warning", 2000);
+        }, "warning", 3500);
     }
 
 }

@@ -53,6 +53,11 @@ namespace EPWeb.MockAPI.Data
             return await _context.Users.AnyAsync(x => x.Username == username) ? true : false;
         }
 
+        public async Task<bool> IsEmailAdressTaken(string email)
+        {
+            return await _context.Users.AnyAsync(x => x.Email == email) ? true : false;
+        }
+
         public string GenerateJWTToken(int id, string username)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

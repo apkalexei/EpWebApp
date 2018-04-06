@@ -29,12 +29,16 @@ namespace EPWeb.MockAPI.Controllers
             if (await _repository.UserExists(userForRegisterDto.Username))
                 ModelState.AddModelError("Username", "Username already exists");
 
+            if (await _repository.IsEmailAdressTaken(userForRegisterDto.Email))
+                ModelState.AddModelError("Email", "Email adress is already taken");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var userToCreate = new User
             {
-                Username = userForRegisterDto.Username
+                Username = userForRegisterDto.Username,
+                Email = userForRegisterDto.Email
             };
 
             var createUser = await _repository.Register(userToCreate, userForRegisterDto.Password);
@@ -58,6 +62,6 @@ namespace EPWeb.MockAPI.Controllers
             var user = _mapper.Map<UserForReturnDto>(userFromRepo);
 
             return Ok(new { tokenString, user });
-        }        
+        }
     }
 }

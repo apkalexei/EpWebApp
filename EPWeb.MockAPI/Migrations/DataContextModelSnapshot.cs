@@ -44,7 +44,7 @@ namespace EPWeb.MockAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("ResourceId");
+                    b.Property<int>("ResourceId");
 
                     b.Property<DateTime>("StartDate");
 
@@ -72,6 +72,8 @@ namespace EPWeb.MockAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Email");
+
                     b.Property<bool>("IsAllowed");
 
                     b.Property<byte[]>("PasswordHash");
@@ -96,7 +98,8 @@ namespace EPWeb.MockAPI.Migrations
                 {
                     b.HasOne("EPWeb.MockAPI.Models.Resource", "Resource")
                         .WithMany("ResourceAllocations")
-                        .HasForeignKey("ResourceId");
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

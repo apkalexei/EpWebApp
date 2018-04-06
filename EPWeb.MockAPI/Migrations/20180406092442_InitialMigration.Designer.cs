@@ -11,8 +11,8 @@ using System;
 namespace EPWeb.MockAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180329080747_ExtendingModels")]
-    partial class ExtendingModels
+    [Migration("20180406092442_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,7 @@ namespace EPWeb.MockAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("ResourceId");
+                    b.Property<int>("ResourceId");
 
                     b.Property<DateTime>("StartDate");
 
@@ -73,6 +73,8 @@ namespace EPWeb.MockAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Email");
+
                     b.Property<bool>("IsAllowed");
 
                     b.Property<byte[]>("PasswordHash");
@@ -97,7 +99,8 @@ namespace EPWeb.MockAPI.Migrations
                 {
                     b.HasOne("EPWeb.MockAPI.Models.Resource", "Resource")
                         .WithMany("ResourceAllocations")
-                        .HasForeignKey("ResourceId");
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

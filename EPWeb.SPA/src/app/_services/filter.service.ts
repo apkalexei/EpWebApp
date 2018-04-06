@@ -18,9 +18,9 @@ export class FilterService {
             .get<ProductionGroupForFilter>(this.baseUrl + "resourcegroup");
     }
 
-    getResourcesForFilter(productionGroupId: number) {
+    getResourcesForFilter(resourceGroupId: number) {
         return this.authHttp
-            .get<ResourceForFilter>(this.baseUrl + "resource/byProductionGroup/" + productionGroupId);
+            .get<ResourceForFilter>(this.baseUrl + "resource/byResourceGroup/" + resourceGroupId);
     }
 
     getFormatDate(value: Date) {

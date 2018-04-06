@@ -32,18 +32,14 @@ import { NotifyService } from './_services/notify.service';
 import { AuthGuard } from './_guards/auth.guard';
 
 // 3RD party modules
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 
 // JWT config
 
-export function getAccessToken(): string {
+export function tokenGetter() {
   return localStorage.getItem('token');
 }
-export const jwtConfig = {
-  tokenGetter: getAccessToken,
-  whiteListedDomains: ['localhost:5000']
-};
 
 @NgModule({
   declarations: [
@@ -62,8 +58,12 @@ export const jwtConfig = {
     HttpModule,
     HttpClientModule,
     BsDatepickerModule.forRoot(),
+    TabsModule.forRoot(),
     JwtModule.forRoot({
-      config: jwtConfig
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:5000']
+      }
     })
   ],
   providers: [

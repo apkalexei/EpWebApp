@@ -11,6 +11,8 @@ namespace EPWeb.MockAPI.Data
 
          Task<bool> UserExists(string username);
 
+         Task<bool> IsEmailAdressTaken(string email);
+
          string GenerateJWTToken(int id, string username);
     }
 }

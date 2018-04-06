@@ -2,11 +2,13 @@
     {
         "id": 1,
         "username": "DCIT",
-        "isAllowed": true
+        "isAllowed": true,
+        "email": "dcit@provys.com"
     },
     {
         "id": 2,
         "username": "Admin",
-        "isAllowed": true
+        "isAllowed": true,
+        "email": "admin@provys.com"
     }
 ]
