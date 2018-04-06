@@ -7,16 +7,6 @@ body {
   text-align: center;
 }
 
-.btn-provys {
-  background-color: #ffc90e;
-  border: 1px solid #222222;
-}
-
-.btn-provys:hover,
-.btn-provys:focus {
-  background-color: #997800
-}
-
 label {
     font-weight: 400;
 }
@@ -45,6 +35,7 @@ label {
 .tab-content {
   margin-top: 30px;
 }
+
 
 
 

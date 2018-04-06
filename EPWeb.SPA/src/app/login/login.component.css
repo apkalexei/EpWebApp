@@ -1,10 +1,18 @@
 .container {
-    max-width: 300px;
+    max-width: 400px;
     margin: 0 auto;
-    margin-top: 15vw;
+    margin-top: 5vw;
 }
 
-.container h1 {
+.container input {
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.container h2 {
+    text-align: left;
+    max-width: 250px;
+    margin: 0 auto;
     margin-bottom: 25px;
 }
 
@@ -22,5 +30,9 @@
         width: 100vw;
         margin: none;
         height: 100vw;
+        margin-top: 5vw;
+    }
+    .alert {
+        margin-top: 15vw;
     }
 }

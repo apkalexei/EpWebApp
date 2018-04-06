@@ -1,3 +1,4 @@
+import { UserForRegistration } from './../_models/user/UserForRegistration';
 import { NotifyService } from './../_services/notify.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../_services/auth.service';
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
   isRegistered: boolean = false;
+  user: UserForRegistration;
 
   constructor(
     private authService: AuthService, 
@@ -51,7 +53,8 @@ export class LoginComponent implements OnInit {
 
   /* Sends register request to authService */
   register() {
-    this.authService.register(this.registerForm.value).subscribe(data => {
+    this.user = Object.assign({}, this.registerForm.value);
+    this.authService.register(this.user).subscribe(data => {
       this.isRegistered = true;
       this.notifyService.success('Registration was successful');
     }, error => {
