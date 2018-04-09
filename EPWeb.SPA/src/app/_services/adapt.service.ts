@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
+declare var require: any;
+
 @Injectable()
 export class AdaptService {
 
@@ -10,8 +12,8 @@ export class AdaptService {
     adapt$ = this.adapt.asObservable();
 
     smallSize: any = {
-        views: ["agenda"],
-        currentView: "agenda",
+        views: require('../../assets/configuration.json').SchedulerSmallSizeViews,
+        currentView: require('../../assets/configuration.json').SchedulerSmallSizeCurrentView,
         size: "350",
         notifyPosition: "bottom"
     }
@@ -19,8 +21,8 @@ export class AdaptService {
     /* Agenda is a special mode for schedulers for displaying scheduler on mobile devices */
 
     largeSize: any = {
-        views: ["day", "week", "workWeek", "month"],
-        currentView: "week",
+        views: require('../../assets/configuration.json').SchedulerLargeSizeViews,
+        currentView: require('../../assets/configuration.json').SchedulerLargeSizeCurrentView,
         size: "700",
         notifyPosition: "bottom right"
     }

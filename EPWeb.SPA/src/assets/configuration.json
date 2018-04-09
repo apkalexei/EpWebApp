@@ -1,0 +1,12 @@
+{
+    "DevelopmentApiAdress": "http://localhost:5000/api/",
+    "ProductionApiAdress": "api/",
+    "SchedulerStartDayHour": "7",
+    "SchedulerEndDayHour": "24",
+    "SchedulerAllDayPanel": false,
+    "SchedulerShowCurrentTimeIndicator": true,
+    "SchedulerLargeSizeViews": ["day", "week", "workWeek", "month"],
+    "SchedulerLargeSizeCurrentView": "week",
+    "SchedulerSmallSizeViews": ["agenda"],
+    "SchedulerSmallSizeCurrentView": "agenda"
+}

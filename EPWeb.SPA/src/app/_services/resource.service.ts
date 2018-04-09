@@ -14,7 +14,7 @@ export class ResourceService {
     constructor(private authHttp: HttpClient) {}
 
     getResAllocsForGivenResource(resourceId: number) {
-        return this.authHttp.get<ResourceAllocations[]>(this.baseUrl + "ResourceAllocation/" + resourceId);
+        return this.authHttp.get<ResourceAllocations[]>(this.baseUrl + "resourceAllocation/" + resourceId);
     }
 
     getResourceDetailById(resourceId: number) {
@@ -22,6 +22,6 @@ export class ResourceService {
     }
 
     getProductionGroup(resourceGroupId: number) {
-        return this.authHttp.get<ProductionGroupForFilter>(this.baseUrl + "ResourceGroup/" + resourceGroupId);
+        return this.authHttp.get<ProductionGroupForFilter>(this.baseUrl + "resourceGroup/" + resourceGroupId);
     }
 }

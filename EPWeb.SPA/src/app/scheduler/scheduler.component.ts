@@ -8,6 +8,8 @@ import { DxSchedulerModule } from 'devextreme-angular';
 import { AdaptService } from '../_services/adapt.service';
 import { FilterService } from '../_services/filter.service';
 
+declare var require: any;
+
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
@@ -21,6 +23,12 @@ export class SchedulerComponent implements OnInit {
   productionGroupInfo: any;
   resAllocs: ResourceAllocations[] = [];
   searchDate: Date = new Date();
+
+  /* Scheduler config */
+  SchedulerStartDayHour = require('../../assets/configuration.json').SchedulerStartDayHour;
+  SchedulerEndDayHour = require('../../assets/configuration.json').SchedulerEndDayHour;
+  SchedulerAllDayPanel = require('../../assets/configuration.json').SchedulerAllDayPanel;
+  SchedulerShowCurrentTimeIndicator = require('../../assets/configuration.json').SchedulerShowCurrentTimeIndicator;
 
   constructor(
 
@@ -41,7 +49,7 @@ export class SchedulerComponent implements OnInit {
       });
     this.resourceService
       .getProductionGroup(this.searchParams.productionGroup)
-      .subscribe(res => { 
+      .subscribe(res => {
         this.productionGroupInfo = res;
       }, err => {
         this.notifyService.error("Error occured. Please try again.");
@@ -100,7 +108,7 @@ export class SchedulerComponent implements OnInit {
   }
 
   /* Creates custom appointment detail - to be done*/
-  onAppointmentFormCreated (e) {
+  onAppointmentFormCreated(e) {
     var form = e.form;
   }
 

@@ -14,11 +14,11 @@
     [editing]="false" 
     [currentView]="adaptOptions.currentView"
     [currentDate]="searchDate" 
-    [startDayHour]="7" 
-    [endDayHour]="24" 
-    [showAllDayPanel]="false" 
+    [startDayHour]="SchedulerStartDayHour" 
+    [endDayHour]="SchedulerEndDayHour" 
+    [showAllDayPanel]="SchedulerAllDayPanel" 
     [height]="adaptOptions.size"
-    [showCurrentTimeIndicator]="true"
+    [showCurrentTimeIndicator]="SchedulerShowCurrentTimeIndicator"
     (onAppointmentFormCreated)="onAppointmentFormCreated($event)">
   </dx-scheduler>
 </div>

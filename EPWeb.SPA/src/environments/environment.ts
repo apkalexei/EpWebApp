@@ -7,6 +7,6 @@ declare var require: any;
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api/',
+  apiUrl: require('../assets/configuration.json').DevelopmentApiAdress,
   ngVersion: require('../../package.json').version
 };
