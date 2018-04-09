@@ -63,5 +63,12 @@ namespace EPWeb.MockAPI.Controllers
 
             return Ok(new { tokenString, user });
         }
+
+        [HttpGet("version")]
+        public IActionResult GetSystemVersion()
+        {
+            var version = _repository.GetSystemVersionString();
+            return Ok(new { version });
+        }
     }
 }

@@ -9,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
 export class FooterComponent implements OnInit {
 
   currentUser: any;
+  apiVersion: string;
+  ngVersion: any;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.getApiSystemVersion().subscribe(res => {
+      this.apiVersion = res.version;
+    });
+    this.ngVersion = this.authService.getNgSystemVersion();
   }
 
   loggedIn() {

@@ -22,4 +22,7 @@ footer {
     .user-status {
         display: unset;
     }
+    .system-version {
+        display: none;
+    }
 }

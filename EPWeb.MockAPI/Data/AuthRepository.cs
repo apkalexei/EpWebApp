@@ -98,5 +98,11 @@ namespace EPWeb.MockAPI.Data
                 return true;
             }
         }
+
+        public string GetSystemVersionString()
+        {
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
+            return version;
+        }
     }
 }

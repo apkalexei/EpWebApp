@@ -13,6 +13,8 @@ namespace EPWeb.MockAPI.Data
 
          Task<bool> IsEmailAdressTaken(string email);
 
+         string GetSystemVersionString();
+
          string GenerateJWTToken(int id, string username);
     }
 }

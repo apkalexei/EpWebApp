@@ -9,11 +9,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { UserForRegistration } from '../_models/user/UserForRegistration';
+import { ApiVersion } from '../_models/system/apiVersion';
 
 @Injectable()
 export class AuthService {
 
-    baseUrl = environment.apiUrl;
+    private baseUrl = environment.apiUrl;
+    private ngSystemVersion = environment.ngVersion;
     currentUser: User;
     userToken: any;
     decodedToken: any;
@@ -40,13 +42,19 @@ export class AuthService {
                 .set('Content-Type', 'application/json')});
     }
 
+    getApiSystemVersion() {
+        return this.http.get<ApiVersion>(this.baseUrl + 'auth/version');
+    }
+
+    getNgSystemVersion() {
+        return this.ngSystemVersion;
+    }
+
     loggedIn() {
         const token = this.jwtHelperService.tokenGetter();
-
         if (!token) {
             return false;
         }
-
         return !this.jwtHelperService.isTokenExpired(token);
     }
 
