@@ -104,17 +104,10 @@ export class SchedulerComponent implements OnInit {
     var form = e.form;
   }
 
-  /* Iterates over objects returned from server, remaps all the objects from server model to the client model and stores them into resAllocs variable */
-  private setResAlloc(data: any[]) {
+  /* Iterates over objects returned from server and stores them into resAllocs variable */
+  private setResAlloc(data: ResourceAllocations[]) {
     for (let resAlloc of data) {
-      let resAllocFromApi: ResourceAllocations = {
-        resAllocId: resAlloc.id,
-        resourceId: resAlloc.resourceId,
-        text: resAlloc.name,
-        startDate: resAlloc.start,
-        endDate: resAlloc.end
-      };
-      this.resAllocs.push(resAllocFromApi);
+      this.resAllocs.push(resAlloc);
     }
   };
 

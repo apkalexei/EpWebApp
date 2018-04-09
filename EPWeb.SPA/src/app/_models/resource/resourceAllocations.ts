@@ -5,6 +5,4 @@ export interface ResourceAllocations {
     text: string;
     startDate: Date;
     endDate: Date;
-    allDay?: boolean;
-    
 }
