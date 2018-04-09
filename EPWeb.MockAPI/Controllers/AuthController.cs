@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
 using EPWeb.MockAPI.Data;
 using EPWeb.MockAPI.DTOs;
@@ -56,6 +57,9 @@ namespace EPWeb.MockAPI.Controllers
 
             if (userFromRepo == null)
                 return Unauthorized();
+
+            if (!await _repository.IsUserAllowed(userFromRepo.Id))
+                return BadRequest("Entered user has not been allowed by the system administrator yet");
 
             var tokenString = _repository.GenerateJWTToken(userFromRepo.Id, userFromRepo.Username);
 

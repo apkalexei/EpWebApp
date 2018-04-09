@@ -1,5 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,11 @@ namespace EPWeb.MockAPI.Data
         public async Task<bool> IsEmailAdressTaken(string email)
         {
             return await _context.Users.AnyAsync(x => x.Email == email) ? true : false;
+        }
+
+        public async Task<bool> IsUserAllowed(int id) 
+        {
+            return await _context.Users.AnyAsync(u => u.Id == id && u.IsAllowed == true);
         }
 
         public string GenerateJWTToken(int id, string username)

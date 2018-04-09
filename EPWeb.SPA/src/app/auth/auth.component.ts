@@ -15,7 +15,6 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
   isRegistered: boolean = false;
-  user: UserForRegistration;
 
   constructor(
     private authService: AuthService, 
@@ -53,8 +52,7 @@ export class AuthComponent implements OnInit {
 
   /* Sends register request to authService */
   register() {
-    this.user = Object.assign({}, this.registerForm.value);
-    this.authService.register(this.user).subscribe(data => {
+    this.authService.register(this.registerForm.value).subscribe(data => {
       this.isRegistered = true;
       this.notifyService.success('Registration was successful');
     }, error => {
@@ -67,7 +65,7 @@ export class AuthComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe(data => {
       this.notifyService.success('You have been successfully signed in');
     }, error => {
-      this.notifyService.error('Failed to sign-in');
+      this.notifyService.error(error);
     }, () => {
       this.router.navigate(['/search']);
     });
