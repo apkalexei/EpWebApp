@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   loggedIn() {
+    this.currentUser = this.authService.currentUser;
     return this.authService.loggedIn();
   }
 

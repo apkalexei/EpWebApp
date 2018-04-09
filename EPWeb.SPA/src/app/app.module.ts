@@ -27,6 +27,7 @@ import { FilterService } from './_services/filter.service';
 import { AdaptService } from './_services/adapt.service';
 import { AuthService } from './_services/auth.service';
 import { NotifyService } from './_services/notify.service';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 // custom guards
 import { AuthGuard } from './_guards/auth.guard';
@@ -73,7 +74,8 @@ export function tokenGetter() {
     AuthService,
     AuthGuard,
     NotifyService,
-    DatePipe
+    DatePipe,
+    ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })
