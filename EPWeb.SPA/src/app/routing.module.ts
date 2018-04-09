@@ -1,15 +1,15 @@
+import { AuthComponent } from './auth/auth.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SearchComponent } from './search/search.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 export const appRoutes: Routes = [
 
     { 
-        path: 'login', 
-        component: LoginComponent 
+        path: 'auth', 
+        component: AuthComponent
     },
     { 
         path: 'search', 

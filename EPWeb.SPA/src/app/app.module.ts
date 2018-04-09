@@ -1,3 +1,4 @@
+import { AuthComponent } from './auth/auth.component';
 // angular modules
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -19,7 +20,6 @@ import { SharedComponentsModule } from './shared-components/shared-components.mo
 import { AppComponent } from './app.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SearchComponent } from './search/search.component';
-import { LoginComponent } from './login/login.component';
 
 // custom services
 import { ResourceService } from './_services/resource.service';
@@ -47,8 +47,8 @@ export function tokenGetter() {
     AppComponent,
     SearchComponent,
     SchedulerComponent,
-    LoginComponent
-],
+    AuthComponent
+  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
