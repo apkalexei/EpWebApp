@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ResourceService } from './../_services/resource.service';
 import { ResourceAllocations } from './../_models/resource/resourceAllocations';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { DxSchedulerModule } from 'devextreme-angular';
+import { DxSchedulerModule, DxSchedulerComponent} from 'devextreme-angular';
 import { AdaptService } from '../_services/adapt.service';
 import { FilterService } from '../_services/filter.service';
 
@@ -40,6 +40,7 @@ export class SchedulerComponent implements OnInit {
     private notifyService: NotifyService) {
 
     this.searchParams = this.getSearchParams();
+
     this.resourceService
       .getResAllocsForGivenResource(this.searchParams.resource)
       .subscribe(res => {
@@ -47,6 +48,7 @@ export class SchedulerComponent implements OnInit {
       }, err => {
         this.notifyService.error("Error occured. Please try again.");
       });
+
     this.resourceService
       .getProductionGroup(this.searchParams.productionGroup)
       .subscribe(res => {
@@ -54,6 +56,7 @@ export class SchedulerComponent implements OnInit {
       }, err => {
         this.notifyService.error("Error occured. Please try again.");
       });
+
     this.resourceService
       .getResourceDetailById(this.searchParams.resource)
       .subscribe(res => {
@@ -61,9 +64,11 @@ export class SchedulerComponent implements OnInit {
       }, err => {
         this.notifyService.error("Error occured. Please try again.");
       });
+
     this.adaptService.adapt$.subscribe(item => {
       this.adaptOptions = this.adaptService.getOptionsForAdaptation(item);
     });
+
   }
 
   ngOnInit() {
@@ -108,8 +113,95 @@ export class SchedulerComponent implements OnInit {
   }
 
   /* Creates custom appointment detail - to be done*/
-  onAppointmentFormCreated(e) {
-    var form = e.form;
+  onAppointmentFormCreated(data) {
+
+    console.log(data);
+
+    var form = data.form;
+
+    /* Values from API will be placed instead into VALUE fields */
+    form.option("items", [{
+
+      label: {
+        text: "Prod. ID"
+      },
+      name: "productionId",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "XT-020485",
+      }
+    }, {
+
+      label: {
+        text: "Prod. Unit"
+      },
+      name: "productionUnitId",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "Strasbourg",
+      }
+    }, {
+
+      label: {
+        text: "Prod. Status"
+      },
+      name: "productionStatus",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "Completed",
+      }
+    }, {
+
+      label: {
+        text: "Prod. Kind"
+      },
+      name: "productionKind",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "Media news",
+      }
+    }, {
+
+      label: {
+        text: "Customer"
+      },
+      name: "customer",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "RTV Slovenija",
+      }
+    }, {
+
+      label: {
+        text: "Contact person"
+      },
+      name: "contactPerson",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "Boštjan Veselič",
+      }
+    }, {
+
+      label: {
+        text: "Project note"
+      },
+      name: "projectNote",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "",
+      }
+    }, {
+
+      label: {
+        text: "Note for planning"
+      },
+      name: "noteForPlanning",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: "",
+      }
+    }
+    ]);
   }
 
   /* Iterates over objects returned from server and stores them into resAllocs variable */

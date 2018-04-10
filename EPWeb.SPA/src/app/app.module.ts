@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 //devextreme modules
-import { DxSchedulerModule, DxResponsiveBoxModule } from 'devextreme-angular';
+import { DxSchedulerModule, DxResponsiveBoxModule, DxTemplateModule, DxButtonModule } from 'devextreme-angular';
 
 // custom modules
 import { RoutingModule } from './routing.module';
@@ -37,7 +37,6 @@ import { BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 
 // JWT config
-
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -54,6 +53,8 @@ export function tokenGetter() {
     ReactiveFormsModule,
     DxSchedulerModule,
     DxResponsiveBoxModule,
+    DxTemplateModule,
+    DxButtonModule,
     SharedComponentsModule,
     RoutingModule,
     HttpModule,

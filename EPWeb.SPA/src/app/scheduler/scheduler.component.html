@@ -4,21 +4,13 @@
       <span class="glyphicon glyphicon-repeat"></span> Search again</button>
   </div>
   <div class="schedule-info">
-    Schedule for <strong>{{ productionGroupInfo?.name }} / {{ resourceDetail?.name }}</strong>
+    Schedule for
+    <strong>{{ productionGroupInfo?.name }} / {{ resourceDetail?.name }}</strong>
   </div>
 </div>
 <div class="scheduler">
-  <dx-scheduler 
-    [dataSource]="resAllocs" 
-    [views]="adaptOptions.views" 
-    [editing]="false" 
-    [currentView]="adaptOptions.currentView"
-    [currentDate]="searchDate" 
-    [startDayHour]="SchedulerStartDayHour" 
-    [endDayHour]="SchedulerEndDayHour" 
-    [showAllDayPanel]="SchedulerAllDayPanel" 
-    [height]="adaptOptions.size"
-    [showCurrentTimeIndicator]="SchedulerShowCurrentTimeIndicator"
-    (onAppointmentFormCreated)="onAppointmentFormCreated($event)">
+  <dx-scheduler [dataSource]="resAllocs" [views]="adaptOptions.views" [editing]="false" [currentView]="adaptOptions.currentView"
+    [currentDate]="searchDate" [startDayHour]="SchedulerStartDayHour" [endDayHour]="SchedulerEndDayHour" [showAllDayPanel]="SchedulerAllDayPanel"
+    [height]="adaptOptions.size" [showCurrentTimeIndicator]="SchedulerShowCurrentTimeIndicator" (onAppointmentFormCreated)="onAppointmentFormCreated($event)">
   </dx-scheduler>
 </div>
