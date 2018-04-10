@@ -26,7 +26,7 @@ namespace EPWeb.MockAPI.Controllers
             var resource = await _repository.GetResource(id);
 
             if(resource == null)
-                return BadRequest();
+                return NotFound();
 
             var resourceToReturn = _mapper.Map<ResourceForFilterDto>(resource);
 
@@ -39,7 +39,7 @@ namespace EPWeb.MockAPI.Controllers
             var resources = await _repository.GetResourcesByResourceGroupId(id);
 
             if(resources == null)
-                return BadRequest();
+                return NotFound();
 
             var resourcesToReturn = _mapper.Map<IEnumerable<ResourceForFilterDto>>(resources);
 

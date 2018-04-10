@@ -36,14 +36,11 @@ namespace EPWeb.MockAPI.Controllers
             var resourceGroup = await _repository.GetResourceGroup(id);
 
             if(resourceGroup == null)
-                return BadRequest();
+                return NotFound();
 
             var resourceGroupToReturn = _mapper.Map<ResourceGroupForFilterDto>(resourceGroup);
 
             return Ok(resourceGroupToReturn);
         }
-
-
-
     }
 }
