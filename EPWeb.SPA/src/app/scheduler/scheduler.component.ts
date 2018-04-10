@@ -7,6 +7,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DxSchedulerModule, DxSchedulerComponent} from 'devextreme-angular';
 import { AdaptService } from '../_services/adapt.service';
 import { FilterService } from '../_services/filter.service';
+import { DatePipe } from '@angular/common';
 
 declare var require: any;
 
@@ -37,7 +38,8 @@ export class SchedulerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private filterService: FilterService,
-    private notifyService: NotifyService) {
+    private notifyService: NotifyService,
+    private datePipe: DatePipe) {
 
     this.searchParams = this.getSearchParams();
 
@@ -115,12 +117,20 @@ export class SchedulerComponent implements OnInit {
   /* Creates custom appointment detail - to be done*/
   onAppointmentFormCreated(data) {
 
-    console.log(data);
-
     var form = data.form;
 
     /* Values from API will be placed instead into VALUE fields */
     form.option("items", [{
+
+      label: {
+        text: "Start/End time"
+      },
+      name: "time",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: this.datePipe.transform(data.appointmentData.startDate, 'shortTime') + " - " + this.datePipe.transform(data.appointmentData.endDate, 'shortTime'),
+      }
+    },{
 
       label: {
         text: "Prod. ID"
