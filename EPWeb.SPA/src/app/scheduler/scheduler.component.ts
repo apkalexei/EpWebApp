@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ResourceService } from './../_services/resource.service';
 import { ResourceAllocations } from './../_models/resource/resourceAllocations';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { DxSchedulerModule, DxSchedulerComponent} from 'devextreme-angular';
+import { DxSchedulerModule, DxSchedulerComponent } from 'devextreme-angular';
 import { AdaptService } from '../_services/adapt.service';
 import { FilterService } from '../_services/filter.service';
 import { DatePipe } from '@angular/common';
@@ -119,8 +119,30 @@ export class SchedulerComponent implements OnInit {
 
     var form = data.form;
 
-    /* Values from API will be placed instead into VALUE fields */
+    /* data.appointmentData returns an object (appointment detail):
+
+        endDate: "2018-04-06T09:30:00"
+        resAllocId: 1
+        resourceId: 1
+        startDate: "2018-04-06T07:30:00"
+        text: "Directing 1"
+
+        So API end-point has to be build to join tables and return valid data across production entities to fill out this form.
+        Returned values from API will replace "value" fields below later.
+        
+    */
+
     form.option("items", [{
+
+      label: {
+        text: "Date"
+      },
+      name: "date",
+      editorType: "dxTextBox",
+      editorOptions: {
+        value: this.datePipe.transform(data.appointmentData.startDate, 'fullDate'),
+      }
+    }, {
 
       label: {
         text: "Start/End time"
@@ -130,7 +152,7 @@ export class SchedulerComponent implements OnInit {
       editorOptions: {
         value: this.datePipe.transform(data.appointmentData.startDate, 'shortTime') + " - " + this.datePipe.transform(data.appointmentData.endDate, 'shortTime'),
       }
-    },{
+    }, {
 
       label: {
         text: "Prod. ID"
