@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -24,7 +25,10 @@ namespace EPWeb.MockAPI.Data
 
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+            var user = await _context.Users
+                .Include(ur => ur.Roles)
+                    .ThenInclude(r => r.Role)
+                .FirstOrDefaultAsync(x => x.Username == username);
 
             if (user == null)
                 return null;
@@ -44,7 +48,7 @@ namespace EPWeb.MockAPI.Data
             user.PasswordHash = passwordHash;
 
             await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            Complete();
 
             return user;
         }
@@ -109,6 +113,24 @@ namespace EPWeb.MockAPI.Data
         {
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
             return version;
+        }
+
+        public async Task<ICollection<User>> GetNotAllowedUsers()
+        {
+            var users = await _context.Users.Where(x => x.IsAllowed == false).ToListAsync();
+            return users;
+        }
+
+        public async void AllowUser(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            user.IsAllowed = true;
+            Complete();
+        }
+
+        public async void Complete()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

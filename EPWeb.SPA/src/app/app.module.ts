@@ -15,6 +15,7 @@ import { DxSchedulerModule, DxResponsiveBoxModule, DxTemplateModule, DxButtonMod
 // custom modules
 import { RoutingModule } from './routing.module';
 import { SharedComponentsModule } from './shared-components/shared-components.module';
+import { AdminModule } from './admin/admin.module';
 
 // custom components
 import { AppComponent } from './app.component';
@@ -56,6 +57,7 @@ export function tokenGetter() {
     DxTemplateModule,
     DxButtonModule,
     SharedComponentsModule,
+    AdminModule,
     RoutingModule,
     HttpModule,
     HttpClientModule,

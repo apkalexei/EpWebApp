@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EPWeb.MockAPI.Models;
 
@@ -18,5 +19,11 @@ namespace EPWeb.MockAPI.Data
          string GetSystemVersionString();
 
          string GenerateJWTToken(int id, string username);
+
+         Task<ICollection<User>> GetNotAllowedUsers();
+
+         void AllowUser(int id);
+
+         void Complete();
     }
 }

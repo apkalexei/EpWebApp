@@ -41,6 +41,7 @@ namespace EPWeb.MockAPI.Data
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
                 user.Username = user.Username.ToLower();
+                user.IsAllowed = true;
 
                 _context.Users.Add(user);
             }
