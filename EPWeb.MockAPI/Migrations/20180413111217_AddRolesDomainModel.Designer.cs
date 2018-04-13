@@ -11,8 +11,8 @@ using System;
 namespace EPWeb.MockAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180406092442_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180413111217_AddRolesDomainModel")]
+    partial class AddRolesDomainModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,18 @@ namespace EPWeb.MockAPI.Migrations
                     b.ToTable("ResourceGroups");
                 });
 
+            modelBuilder.Entity("EPWeb.MockAPI.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("EPWeb.MockAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -88,6 +100,19 @@ namespace EPWeb.MockAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EPWeb.MockAPI.Models.UserRoles", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
             modelBuilder.Entity("EPWeb.MockAPI.Models.Resource", b =>
                 {
                     b.HasOne("EPWeb.MockAPI.Models.ResourceGroup", "ResourceGroup")
@@ -100,6 +125,19 @@ namespace EPWeb.MockAPI.Migrations
                     b.HasOne("EPWeb.MockAPI.Models.Resource", "Resource")
                         .WithMany("ResourceAllocations")
                         .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EPWeb.MockAPI.Models.UserRoles", b =>
+                {
+                    b.HasOne("EPWeb.MockAPI.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EPWeb.MockAPI.Models.User", "User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
