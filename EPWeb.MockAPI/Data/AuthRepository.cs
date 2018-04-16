@@ -48,7 +48,6 @@ namespace EPWeb.MockAPI.Data
             user.PasswordHash = passwordHash;
 
             await _context.Users.AddAsync(user);
-            Complete();
 
             return user;
         }
@@ -109,9 +108,9 @@ namespace EPWeb.MockAPI.Data
             }
         }
 
-        private async void Complete()
+        public async Task<bool> SaveAll()
         {
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
 
     }

@@ -30,7 +30,6 @@ namespace EPWeb.MockAPI
 
         public IConfiguration Configuration { get; }
 
-        // ConfigureServices for Production mode
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));

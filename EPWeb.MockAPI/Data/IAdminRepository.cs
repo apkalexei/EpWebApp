@@ -10,6 +10,8 @@ namespace EPWeb.MockAPI.Data
 
          Task<ICollection<User>> GetNotAllowedUsers();
 
-         void AllowUser(int id);
+         Task<User> GetUser(int id);
+
+         Task<bool> SaveAll();
     }
 }

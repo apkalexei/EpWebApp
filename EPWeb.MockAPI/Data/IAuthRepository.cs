@@ -17,5 +17,7 @@ namespace EPWeb.MockAPI.Data
          Task<bool> IsUserAllowed(int id);
 
          string GenerateJWTToken(int id, string username);
+
+         Task<bool> SaveAll();
     }
 }

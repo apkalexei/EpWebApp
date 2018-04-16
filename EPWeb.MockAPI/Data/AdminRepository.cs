@@ -14,11 +14,10 @@ namespace EPWeb.MockAPI.Data
             this._context = context;
         }
 
-        public async void AllowUser(int id)
+        public async Task<User> GetUser(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            user.IsAllowed = true;
-            Complete();
+            return user;
         }
 
         public async Task<ICollection<User>> GetNotAllowedUsers()
@@ -33,9 +32,9 @@ namespace EPWeb.MockAPI.Data
             return version;
         }
 
-        private async void Complete() 
+        public async Task<bool> SaveAll()
         {
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
