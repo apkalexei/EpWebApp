@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../EpWeb.MockAPI/wwwroot",
+      "outDir": "dist",
       "assets": [
         "content",
         "favicon.ico"

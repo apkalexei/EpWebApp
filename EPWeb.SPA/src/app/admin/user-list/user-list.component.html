@@ -1,3 +1,27 @@
-<p>
-  user-list works!
-</p>
+<div class="user-list">
+
+  <h2>Users to allow</h2>
+  <table class="table">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of Users">
+        <td>{{ user?.id }}</td>
+        <td>{{ user?.username }}</td>
+        <td>{{ user?.email }}</td>
+        <td>
+          <button (click)="allowUser(user)" class="btn btn-success">Allow</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

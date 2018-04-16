@@ -4,6 +4,7 @@ import { SearchComponent } from './search/search.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { AuthGuard } from './_guards/auth.guard';
+import { UserListComponent } from './admin/user-list/user-list.component';
 
 export const appRoutes: Routes = [
 
@@ -22,6 +23,12 @@ export const appRoutes: Routes = [
         component: SchedulerComponent,
         canActivate: [AuthGuard],
         runGuardsAndResolvers: 'always', 
+    },
+    {
+        path: 'admin',
+        children: [
+            { path: 'usersToAllow', component: UserListComponent }
+        ]
     },
     { 
         path: '**', 

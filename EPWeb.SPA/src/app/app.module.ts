@@ -1,4 +1,3 @@
-import { AuthComponent } from './auth/auth.component';
 // angular modules
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -15,11 +14,13 @@ import { DxSchedulerModule, DxResponsiveBoxModule, DxTemplateModule, DxButtonMod
 // custom modules
 import { RoutingModule } from './routing.module';
 import { SharedComponentsModule } from './shared-components/shared-components.module';
+import { AdminModule } from './admin/admin.module';
 
 // custom components
 import { AppComponent } from './app.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SearchComponent } from './search/search.component';
+import { AuthComponent } from './auth/auth.component';
 
 // custom services
 import { ResourceService } from './_services/resource.service';
@@ -56,6 +57,7 @@ export function tokenGetter() {
     DxTemplateModule,
     DxButtonModule,
     SharedComponentsModule,
+    AdminModule,
     RoutingModule,
     HttpModule,
     HttpClientModule,

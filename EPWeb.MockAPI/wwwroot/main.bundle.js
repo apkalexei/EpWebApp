@@ -126,6 +126,51 @@ var AdaptService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/_services/admin.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AdminService = /** @class */ (function () {
+    function AdminService(authHttp) {
+        this.authHttp = authHttp;
+        this.baseUrl = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].apiUrl;
+    }
+    AdminService.prototype.getNotAllowedUsers = function () {
+        return this.authHttp.get(this.baseUrl + 'admin/users');
+    };
+    AdminService.prototype.allowUser = function (id) {
+        return this.authHttp.post(this.baseUrl + 'admin/users/allow/' + id, {
+            headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]()
+                .set('Content-Type', 'application/json')
+        });
+    };
+    AdminService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
+    ], AdminService);
+    return AdminService;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/_services/auth.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -425,6 +470,135 @@ var ResourceService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/admin/admin.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_list_user_list_component__ = __webpack_require__("../../../../../src/app/admin/user-list/user-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_admin_service__ = __webpack_require__("../../../../../src/app/_services/admin.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var AdminModule = /** @class */ (function () {
+    function AdminModule() {
+    }
+    AdminModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_2__user_list_user_list_component__["a" /* UserListComponent */]
+            ],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_3__services_admin_service__["a" /* AdminService */]
+            ]
+        })
+    ], AdminModule);
+    return AdminModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/admin/user-list/user-list.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/admin/user-list/user-list.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\n\n  <h2>List of users waiting to be allowed</h2>\n\n  <table class=\"table\">\n\n    <thead>\n      <tr>\n        <th>ID</th>\n        <th>Username</th>\n        <th>Email</th>\n        <th></th>\n      </tr>\n    </thead>\n\n    <tbody *ngIf=\"Users\">\n      <tr *ngFor=\"let user of Users\">\n        <td>{{ user?.id }}</td>\n        <td>{{ user?.username }}</td>\n        <td>{{ user?.email }}</td>\n        <td>\n          <button (click)=\"allowUser(user)\" class=\"btn btn-success\">Allow</button>\n        </td>\n      </tr>\n    </tbody>\n\n    <tbody *ngIf=\"!Users\">\n      <td>There are no users waiting for approval!</td>\n    </tbody>\n\n  </table>\n  \n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/admin/user-list/user-list.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserListComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/_services/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_notify_service__ = __webpack_require__("../../../../../src/app/_services/notify.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UserListComponent = /** @class */ (function () {
+    function UserListComponent(adminService, notifyService) {
+        this.adminService = adminService;
+        this.notifyService = notifyService;
+    }
+    UserListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.adminService
+            .getNotAllowedUsers()
+            .subscribe(function (res) {
+            _this.Users = res;
+        }, function (error) {
+            _this.notifyService.error('Could not retrieve list of users. Try again.');
+        });
+    };
+    UserListComponent.prototype.allowUser = function (user) {
+        var _this = this;
+        this.adminService
+            .allowUser(user.id)
+            .subscribe(function (res) {
+            _this.notifyService.success('User ' + user.username + ' allowed.');
+            var index = _this.Users.findIndex(function (u) { return u.id == user.id; });
+            _this.Users.splice(index, 1);
+        }, function (error) {
+            _this.notifyService.error('User could not be allowed. Try again.');
+        });
+    };
+    UserListComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-user-list',
+            template: __webpack_require__("../../../../../src/app/admin/user-list/user-list.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/admin/user-list/user-list.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_2__services_notify_service__["a" /* NotifyService */]])
+    ], UserListComponent);
+    return UserListComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/app.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -523,36 +697,36 @@ var AppComponent = /** @class */ (function () {
 "use strict";
 /* unused harmony export tokenGetter */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_auth_component__ = __webpack_require__("../../../../../src/app/auth/auth.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http___ = __webpack_require__("../../../http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_devextreme_angular__ = __webpack_require__("../../../../devextreme-angular/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_devextreme_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_devextreme_angular__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__routing_module__ = __webpack_require__("../../../../../src/app/routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_components_shared_components_module__ = __webpack_require__("../../../../../src/app/shared-components/shared-components.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http___ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_devextreme_angular__ = __webpack_require__("../../../../devextreme-angular/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_devextreme_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_devextreme_angular__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__routing_module__ = __webpack_require__("../../../../../src/app/routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_components_shared_components_module__ = __webpack_require__("../../../../../src/app/shared-components/shared-components.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__admin_admin_module__ = __webpack_require__("../../../../../src/app/admin/admin.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__scheduler_scheduler_component__ = __webpack_require__("../../../../../src/app/scheduler/scheduler.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__search_search_component__ = __webpack_require__("../../../../../src/app/search/search.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_resource_service__ = __webpack_require__("../../../../../src/app/_services/resource.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_filter_service__ = __webpack_require__("../../../../../src/app/_services/filter.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_adapt_service__ = __webpack_require__("../../../../../src/app/_services/adapt.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_auth_service__ = __webpack_require__("../../../../../src/app/_services/auth.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_notify_service__ = __webpack_require__("../../../../../src/app/_services/notify.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__services_error_interceptor__ = __webpack_require__("../../../../../src/app/_services/error.interceptor.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__guards_auth_guard__ = __webpack_require__("../../../../../src/app/_guards/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__auth0_angular_jwt__ = __webpack_require__("../../../../@auth0/angular-jwt/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__auth_auth_component__ = __webpack_require__("../../../../../src/app/auth/auth.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_resource_service__ = __webpack_require__("../../../../../src/app/_services/resource.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_filter_service__ = __webpack_require__("../../../../../src/app/_services/filter.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_adapt_service__ = __webpack_require__("../../../../../src/app/_services/adapt.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_auth_service__ = __webpack_require__("../../../../../src/app/_services/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__services_notify_service__ = __webpack_require__("../../../../../src/app/_services/notify.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_error_interceptor__ = __webpack_require__("../../../../../src/app/_services/error.interceptor.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__guards_auth_guard__ = __webpack_require__("../../../../../src/app/_guards/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__auth0_angular_jwt__ = __webpack_require__("../../../../@auth0/angular-jwt/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
 // angular modules
 
 
@@ -565,7 +739,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 // custom modules
 
 
+
 // custom components
+
 
 
 
@@ -589,27 +765,28 @@ var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_10__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__search_search_component__["a" /* SearchComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__scheduler_scheduler_component__["a" /* SchedulerComponent */],
-                __WEBPACK_IMPORTED_MODULE_0__auth_auth_component__["a" /* AuthComponent */]
+                __WEBPACK_IMPORTED_MODULE_13__auth_auth_component__["a" /* AuthComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["ReactiveFormsModule"],
-                __WEBPACK_IMPORTED_MODULE_7_devextreme_angular__["DxSchedulerModule"],
-                __WEBPACK_IMPORTED_MODULE_7_devextreme_angular__["DxResponsiveBoxModule"],
-                __WEBPACK_IMPORTED_MODULE_7_devextreme_angular__["DxTemplateModule"],
-                __WEBPACK_IMPORTED_MODULE_7_devextreme_angular__["DxButtonModule"],
-                __WEBPACK_IMPORTED_MODULE_9__shared_components_shared_components_module__["a" /* SharedComponentsModule */],
-                __WEBPACK_IMPORTED_MODULE_8__routing_module__["a" /* RoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_5__angular_http___["a" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_6__angular_common_http__["c" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_20_ngx_bootstrap__["a" /* BsDatepickerModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_20_ngx_bootstrap__["c" /* TabsModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_21__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
+                __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["ReactiveFormsModule"],
+                __WEBPACK_IMPORTED_MODULE_6_devextreme_angular__["DxSchedulerModule"],
+                __WEBPACK_IMPORTED_MODULE_6_devextreme_angular__["DxResponsiveBoxModule"],
+                __WEBPACK_IMPORTED_MODULE_6_devextreme_angular__["DxTemplateModule"],
+                __WEBPACK_IMPORTED_MODULE_6_devextreme_angular__["DxButtonModule"],
+                __WEBPACK_IMPORTED_MODULE_8__shared_components_shared_components_module__["a" /* SharedComponentsModule */],
+                __WEBPACK_IMPORTED_MODULE_9__admin_admin_module__["a" /* AdminModule */],
+                __WEBPACK_IMPORTED_MODULE_7__routing_module__["a" /* RoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_4__angular_http___["a" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["c" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_21_ngx_bootstrap__["a" /* BsDatepickerModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_21_ngx_bootstrap__["c" /* TabsModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_22__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
                     config: {
                         tokenGetter: tokenGetter,
                         whitelistedDomains: ['localhost:5000']
@@ -617,14 +794,14 @@ var AppModule = /** @class */ (function () {
                 })
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_13__services_resource_service__["a" /* ResourceService */],
-                __WEBPACK_IMPORTED_MODULE_14__services_filter_service__["a" /* FilterService */],
-                __WEBPACK_IMPORTED_MODULE_15__services_adapt_service__["a" /* AdaptService */],
-                __WEBPACK_IMPORTED_MODULE_16__services_auth_service__["a" /* AuthService */],
-                __WEBPACK_IMPORTED_MODULE_19__guards_auth_guard__["a" /* AuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_17__services_notify_service__["a" /* NotifyService */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_common__["d" /* DatePipe */],
-                __WEBPACK_IMPORTED_MODULE_18__services_error_interceptor__["a" /* ErrorInterceptorProvider */]
+                __WEBPACK_IMPORTED_MODULE_14__services_resource_service__["a" /* ResourceService */],
+                __WEBPACK_IMPORTED_MODULE_15__services_filter_service__["a" /* FilterService */],
+                __WEBPACK_IMPORTED_MODULE_16__services_adapt_service__["a" /* AdaptService */],
+                __WEBPACK_IMPORTED_MODULE_17__services_auth_service__["a" /* AuthService */],
+                __WEBPACK_IMPORTED_MODULE_20__guards_auth_guard__["a" /* AuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_18__services_notify_service__["a" /* NotifyService */],
+                __WEBPACK_IMPORTED_MODULE_2__angular_common__["d" /* DatePipe */],
+                __WEBPACK_IMPORTED_MODULE_19__services_error_interceptor__["a" /* ErrorInterceptorProvider */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_10__app_component__["a" /* AppComponent */]]
         })
@@ -781,6 +958,8 @@ var AuthComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_search_component__ = __webpack_require__("../../../../../src/app/search/search.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__guards_auth_guard__ = __webpack_require__("../../../../../src/app/_guards/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__admin_user_list_user_list_component__ = __webpack_require__("../../../../../src/app/admin/user-list/user-list.component.ts");
+
 
 
 
@@ -802,6 +981,12 @@ var appRoutes = [
         component: __WEBPACK_IMPORTED_MODULE_1__scheduler_scheduler_component__["a" /* SchedulerComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_4__guards_auth_guard__["a" /* AuthGuard */]],
         runGuardsAndResolvers: 'always',
+    },
+    {
+        path: 'admin',
+        children: [
+            { path: 'usersToAllow', component: __WEBPACK_IMPORTED_MODULE_5__admin_user_list_user_list_component__["a" /* UserListComponent */] }
+        ]
     },
     {
         path: '**',
