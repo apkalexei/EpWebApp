@@ -30,22 +30,19 @@ namespace EPWeb.MockAPI
 
         public IConfiguration Configuration { get; }
 
+        // ConfigureServices for Production mode
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddCors();
-
             services.AddAutoMapper();
-
             services.AddMvc().AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddTransient<Seed>(); // enables seeding method for development purposes
 
             services.AddScoped<IAuthRepository, AuthRepository>();
-
+            services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IResourceGroupRepository, ResourceGroupRepository>();
-
             services.AddScoped<IResourceRepository, ResourceRepository>();
-
             services.AddScoped<IResourceAllocationRepository, ResourceAllocationRepository>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
@@ -61,8 +58,6 @@ namespace EPWeb.MockAPI
 
                     };
                 });
-
-            services.AddTransient<Seed>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
@@ -98,7 +93,14 @@ namespace EPWeb.MockAPI
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseDefaultFiles(); // uses Angular from /wwwroot folder
+            app.UseStaticFiles(); // uses Angular from /wwwroot folder
+            app.UseMvc(routes => {
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "fallback", action = "Index" }
+                );
+            }); // allows Angular routing inside of the ASP.NET App
         }
     }
 }

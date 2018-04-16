@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     getApiSystemVersion() {
-        return this.http.get<ApiVersion>(this.baseUrl + 'auth/version');
+        return this.http.get<ApiVersion>(this.baseUrl + 'admin/version');
     }
 
     getNgSystemVersion() {

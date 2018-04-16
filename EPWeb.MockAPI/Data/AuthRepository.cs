@@ -109,28 +109,10 @@ namespace EPWeb.MockAPI.Data
             }
         }
 
-        public string GetSystemVersionString()
-        {
-            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
-            return version;
-        }
-
-        public async Task<ICollection<User>> GetNotAllowedUsers()
-        {
-            var users = await _context.Users.Where(x => x.IsAllowed == false).ToListAsync();
-            return users;
-        }
-
-        public async void AllowUser(int id)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            user.IsAllowed = true;
-            Complete();
-        }
-
-        public async void Complete()
+        private async void Complete()
         {
             await _context.SaveChangesAsync();
         }
+
     }
 }

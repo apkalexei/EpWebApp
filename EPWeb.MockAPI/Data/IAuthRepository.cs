@@ -16,14 +16,6 @@ namespace EPWeb.MockAPI.Data
 
          Task<bool> IsUserAllowed(int id);
 
-         string GetSystemVersionString();
-
          string GenerateJWTToken(int id, string username);
-
-         Task<ICollection<User>> GetNotAllowedUsers();
-
-         void AllowUser(int id);
-
-         void Complete();
     }
 }
