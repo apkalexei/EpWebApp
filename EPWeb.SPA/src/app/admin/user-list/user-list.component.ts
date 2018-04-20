@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
       .getAllUsers()
       .subscribe(res => {
         this.AllUsers = res;
-        this.removeCurrentUserFromList();
+        //this.removeCurrentUserFromList(); //rene nechce
       }, error => {
         this.notifyService.error('Could not retrieve list of all users. Try again.');
       });
@@ -87,9 +87,12 @@ export class UserListComponent implements OnInit {
     this.UsersToAllow.splice(index, 1);
   }
 
+  private isUserCurrentUser(userId: number): boolean {
+    return userId == this.authService.currentUser.id;
+  }
+
   private removeCurrentUserFromList() {
-    let userId = this.authService.currentUser.id;
-    let index = this.AllUsers.findIndex(u => u.id == userId);
+    let index = this.AllUsers.findIndex(u =>this.isUserCurrentUser(u.id));
     this.AllUsers.splice(index, 1);
   }
 
