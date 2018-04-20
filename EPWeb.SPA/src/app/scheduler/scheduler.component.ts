@@ -32,6 +32,7 @@ export class SchedulerComponent implements OnInit {
   SchedulerEndDayHour = require('../../assets/configuration.json').SchedulerEndDayHour;
   SchedulerAllDayPanel = require('../../assets/configuration.json').SchedulerAllDayPanel;
   SchedulerShowCurrentTimeIndicator = require('../../assets/configuration.json').SchedulerShowCurrentTimeIndicator;
+  SchedulerFirstDayOfWeek = require('../../assets/configuration.json').SchedulerFirstDayOfWeek;
 
   constructor(
 

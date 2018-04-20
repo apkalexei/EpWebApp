@@ -8,5 +8,6 @@
     "SchedulerLargeSizeViews": ["day", "week", "workWeek", "month"],
     "SchedulerLargeSizeCurrentView": "week",
     "SchedulerSmallSizeViews": ["agenda"],
-    "SchedulerSmallSizeCurrentView": "agenda"
+    "SchedulerSmallSizeCurrentView": "agenda",
+    "SchedulerFirstDayOfWeek": "1"
 }

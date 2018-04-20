@@ -10,7 +10,7 @@
 </div>
 <div class="scheduler">
   <dx-scheduler [dataSource]="resAllocs" [views]="adaptOptions.views" [editing]="false" [currentView]="adaptOptions.currentView"
-    [currentDate]="searchDate" [startDayHour]="SchedulerStartDayHour" [endDayHour]="SchedulerEndDayHour" [showAllDayPanel]="SchedulerAllDayPanel"
+    [currentDate]="searchDate" [startDayHour]="SchedulerStartDayHour" [endDayHour]="SchedulerEndDayHour" [showAllDayPanel]="SchedulerAllDayPanel" [firstDayOfWeek]="SchedulerFirstDayOfWeek"
     [height]="adaptOptions.size" [showCurrentTimeIndicator]="SchedulerShowCurrentTimeIndicator" (onAppointmentFormCreated)="onAppointmentFormCreated($event)">
   </dx-scheduler>
 </div>

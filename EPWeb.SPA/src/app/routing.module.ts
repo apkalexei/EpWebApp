@@ -27,7 +27,7 @@ export const appRoutes: Routes = [
     {
         path: 'admin',
         children: [
-            { path: 'usersToAllow', component: UserListComponent }
+            { path: 'users', component: UserListComponent }
         ]
     },
     { 

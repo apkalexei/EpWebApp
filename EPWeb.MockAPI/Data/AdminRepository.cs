@@ -20,6 +20,17 @@ namespace EPWeb.MockAPI.Data
             return user;
         }
 
+        public void DeleteUser(User user)
+        {
+             _context.Remove(user);
+        }
+
+        public async Task<ICollection<User>> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+            return users;
+        }
+
         public async Task<ICollection<User>> GetNotAllowedUsers()
         {
             var users = await _context.Users.Where(x => x.IsAllowed == false).ToListAsync();

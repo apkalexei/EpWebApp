@@ -1,27 +1,61 @@
 <div class="user-list">
 
-  <h2>Users to allow</h2>
-  <table class="table">
 
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th></th>
-      </tr>
-    </thead>
+  <div class="tab-panel">
+    <tabset class="member-tabset" #userTabs>
 
-    <tbody>
-      <tr *ngFor="let user of Users">
-        <td>{{ user?.id }}</td>
-        <td>{{ user?.username }}</td>
-        <td>{{ user?.email }}</td>
-        <td>
-          <button (click)="allowUser(user)" class="btn btn-success">Allow</button>
-        </td>
-      </tr>
-    </tbody>
+      <tab heading="All users">
+        <table class="table">
 
-  </table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let user of AllUsers">
+              <td>{{ user?.id }}</td>
+              <td>{{ user?.username }}</td>
+              <td>{{ user?.email }}</td>
+              <td>
+                <button (click)="deleteUser(user)" class="btn btn-danger">Delete</button>
+                <button class="btn btn-default">Change password</button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </tab>
+
+      <tab heading="Users to allow">
+        <table class="table">
+
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let user of UsersToAllow">
+              <td>{{ user?.id }}</td>
+              <td>{{ user?.username }}</td>
+              <td>{{ user?.email }}</td>
+              <td>
+                <button (click)="allowUser(user)" class="btn btn-success">Allow</button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </tab>
+    </tabset>
+  </div>
 </div>

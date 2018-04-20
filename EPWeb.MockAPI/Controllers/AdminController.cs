@@ -20,7 +20,17 @@ namespace EPWeb.MockAPI.Controllers
             this._repository = repository;
         }
 
-        [HttpGet("users")]
+        [HttpGet("allUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var usersFromRepo = await _repository.GetAllUsers();
+
+            var usersToreturn = _mapper.Map<ICollection<UserForAdminListDto>>(usersFromRepo);
+
+            return Ok(usersToreturn);
+        }
+
+        [HttpGet("usersToAllow")]
         public async Task<IActionResult> GetNotAllowedUsers() 
         {
             var usersFromRepo = await _repository.GetNotAllowedUsers();
@@ -30,7 +40,7 @@ namespace EPWeb.MockAPI.Controllers
             return Ok(usersToReturn);
         }
 
-        [HttpPost("users/allow/{id}")]
+        [HttpPut("users/allow/{id}")]
         public async Task<IActionResult> AllowUser(int id)
         {
             var userFromRepo = await _repository.GetUser(id);
@@ -44,9 +54,25 @@ namespace EPWeb.MockAPI.Controllers
             userFromRepo.IsAllowed = true;
 
             if (await _repository.SaveAll())
-                return Ok($"User with ID of {id} allowed.");
+                return Ok();
 
             return BadRequest($"Failed to allow user with ID of {id}");
+        }
+
+        [HttpDelete("users/delete/{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var userFromRepo = await _repository.GetUser(id);
+
+            if (userFromRepo == null)
+                return NotFound();
+
+            _repository.DeleteUser(userFromRepo);
+
+            if (await _repository.SaveAll())
+                return NoContent();
+
+            return BadRequest($"Failed to delete user with ID of {id}");
         }
 
         [AllowAnonymous]
@@ -56,6 +82,6 @@ namespace EPWeb.MockAPI.Controllers
             var version = _repository.GetSystemVersionString();
             return Ok(new { version });
         }
-
+        
     }
 }

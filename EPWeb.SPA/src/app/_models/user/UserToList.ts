@@ -1,4 +1,4 @@
-export interface UserToAllow {
+export interface UserToList {
     id: number;
     username: string;
     email: string;
