@@ -1,3 +1,4 @@
+import { ResourceAllocationDetail } from './../_models/resource/resourceAllocationDetail';
 import { ProductionGroupForFilter } from './../_models/productionGroup/productionGroupForFilter';
 import { ResourceForScheduler } from './../_models/resource/resourceForScheduler';
 import { ResourceAllocations } from './../_models/resource/resourceAllocations';
@@ -23,5 +24,9 @@ export class ResourceService {
 
     getProductionGroup(resourceGroupId: number) {
         return this.authHttp.get<ProductionGroupForFilter>(this.baseUrl + "resourceGroup/" + resourceGroupId);
+    }
+
+    getResAllocDetail(resAllocId: number) {
+        return this.authHttp.get<ResourceAllocationDetail>(this.baseUrl + "resourceAllocation/detail/" + resAllocId);
     }
 }

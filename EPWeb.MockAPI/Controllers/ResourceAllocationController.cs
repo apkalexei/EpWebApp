@@ -22,12 +22,28 @@ namespace EPWeb.MockAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetResourceAllocationsByResourceId (int id)
+        public async Task<IActionResult> GetResourceAllocationsByResourceId(int id)
         {
             var resourceAllocations = await _repository.GetResourceAllocationsByResourceId(id);
             var resourceAllocationsToReturn = _mapper.Map<IEnumerable<ResourceAllocationDto>>(resourceAllocations);
 
             return Ok(resourceAllocationsToReturn);
+        }
+
+        /* MOCK Controller method for client, has to be replaced later with proper method in repository */
+        [HttpGet("detail/{id}")]
+        public IActionResult GetResourceAllocationDetail(int id)
+        {
+            return Ok( new { 
+                ProdId = $"Prod. ID is {id}", 
+                ProdUnit = $"Prod. Unit ID is {id}",
+                ProdStatus = $"Prod. Status for ID {id}",
+                ProdKind = $"Prod. Kind for ID {id}",
+                Customer = $"Customer for ID {id}",
+                ContactPerson = $"Contact person for ID {id}",
+                ProjectNote = $"Project note for ID {id}",
+                NoteForPlanning = $"Note for planning for ID {id}"
+            });
         }
     }
 }

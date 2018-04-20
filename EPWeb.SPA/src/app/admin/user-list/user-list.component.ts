@@ -28,8 +28,6 @@ export class UserListComponent implements OnInit {
 
   allowUser(user: UserToAllow) {
 
-    console.log(user);
-    
     this.adminService
       .allowUser(user.id)
       .subscribe(res => {
@@ -37,7 +35,7 @@ export class UserListComponent implements OnInit {
         let index = this.Users.findIndex(u => u.id == user.id);
         this.Users.splice(index, 1);
       }, error => {
-        this.notifyService.error('User could not be allowed. Try again.');
+        this.notifyService.error(error);
       });
   }
 

@@ -8,6 +8,7 @@ import { DxSchedulerModule, DxSchedulerComponent } from 'devextreme-angular';
 import { AdaptService } from '../_services/adapt.service';
 import { FilterService } from '../_services/filter.service';
 import { DatePipe } from '@angular/common';
+import { ResourceAllocationDetail } from '../_models/resource/resourceAllocationDetail';
 
 declare var require: any;
 
@@ -23,6 +24,7 @@ export class SchedulerComponent implements OnInit {
   resourceDetail: ResourceForScheduler;
   productionGroupInfo: any;
   resAllocs: ResourceAllocations[] = [];
+  resAllocDetail: ResourceAllocationDetail;
   searchDate: Date = new Date();
 
   /* Scheduler config */
@@ -114,23 +116,17 @@ export class SchedulerComponent implements OnInit {
     this.router.navigate(["search", sendParams]);
   }
 
-  /* Creates custom appointment detail - to be done*/
+  /* Creates custom appointment detail */
   onAppointmentFormCreated(data) {
 
     var form = data.form;
-
-    /* data.appointmentData returns an object (appointment detail):
-
-        endDate: "2018-04-06T09:30:00"
-        resAllocId: 1
-        resourceId: 1
-        startDate: "2018-04-06T07:30:00"
-        text: "Directing 1"
-
-        So API end-point has to be build to join tables and return valid data across production entities to fill out this form.
-        Returned values from API will replace "value" fields below later.
-        
-    */
+    this.resourceService
+      .getResAllocDetail(data.appointmentData.resAllocId)
+      .subscribe(res => {
+        this.resAllocDetail = res;
+      }, error => {
+        this.notifyService.error("Error occured on retreiving resource allocation detail. Try again.")
+      });
 
     form.option("items", [{
 
@@ -160,7 +156,7 @@ export class SchedulerComponent implements OnInit {
       name: "productionId",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "XT-020485",
+        value: this.resAllocDetail.prodId,
       }
     }, {
 
@@ -170,7 +166,7 @@ export class SchedulerComponent implements OnInit {
       name: "productionUnitId",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "Strasbourg",
+        value: this.resAllocDetail.prodUnit,
       }
     }, {
 
@@ -180,7 +176,7 @@ export class SchedulerComponent implements OnInit {
       name: "productionStatus",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "Completed",
+        value: this.resAllocDetail.prodStatus,
       }
     }, {
 
@@ -190,7 +186,7 @@ export class SchedulerComponent implements OnInit {
       name: "productionKind",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "Media news",
+        value: this.resAllocDetail.prodKind,
       }
     }, {
 
@@ -200,7 +196,7 @@ export class SchedulerComponent implements OnInit {
       name: "customer",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "RTV Slovenija",
+        value: this.resAllocDetail.customer,
       }
     }, {
 
@@ -210,7 +206,7 @@ export class SchedulerComponent implements OnInit {
       name: "contactPerson",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "Boštjan Veselič",
+        value: this.resAllocDetail.contactPerson,
       }
     }, {
 
@@ -220,7 +216,7 @@ export class SchedulerComponent implements OnInit {
       name: "projectNote",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "",
+        value: this.resAllocDetail.projectNote,
       }
     }, {
 
@@ -230,7 +226,7 @@ export class SchedulerComponent implements OnInit {
       name: "noteForPlanning",
       editorType: "dxTextBox",
       editorOptions: {
-        value: "",
+        value: this.resAllocDetail.noteForPlanning,
       }
     }
     ]);
