@@ -1,61 +1,64 @@
-<div class="user-list">
+<div class="container">
+  <div class="user-list">
 
+    <h2><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Administration module</h2>
+    <div class="tab-panel">
+      <tabset class="member-tabset" #userTabs>
 
-  <div class="tab-panel">
-    <tabset class="member-tabset" #userTabs>
+        <tab heading="All users">
+          <table class="table">
 
-      <tab heading="All users">
-        <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th></th>
+              </tr>
+            </thead>
 
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th></th>
-            </tr>
-          </thead>
+            <tbody>
+              <tr *ngFor="let user of AllUsers">
+                <td>{{ user?.id }}</td>
+                <td>{{ user?.username }}</td>
+                <td>{{ user?.email }}</td>
+                <td>
+                  <button (click)="deleteUser(user)" class="btn btn-danger">Delete</button>
+                  <button (click)="changePassword()" class="btn btn-default">Change password</button>
+                </td>
+              </tr>
+            </tbody>
 
-          <tbody>
-            <tr *ngFor="let user of AllUsers">
-              <td>{{ user?.id }}</td>
-              <td>{{ user?.username }}</td>
-              <td>{{ user?.email }}</td>
-              <td>
-                <button (click)="deleteUser(user)" class="btn btn-danger">Delete</button>
-                <button class="btn btn-default">Change password</button>
-              </td>
-            </tr>
-          </tbody>
+          </table>
+        </tab>
 
-        </table>
-      </tab>
+        <tab heading="Users to allow">
+          <table class="table">
 
-      <tab heading="Users to allow">
-        <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th></th>
+              </tr>
+            </thead>
 
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th></th>
-            </tr>
-          </thead>
+            <tbody>
+              <tr *ngFor="let user of UsersToAllow">
+                <td>{{ user?.id }}</td>
+                <td>{{ user?.username }}</td>
+                <td>{{ user?.email }}</td>
+                <td>
+                  <button (click)="allowUser(user)" class="btn btn-success">Allow</button>
+                  <button (click)="deleteUser(user)" class="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            </tbody>
 
-          <tbody>
-            <tr *ngFor="let user of UsersToAllow">
-              <td>{{ user?.id }}</td>
-              <td>{{ user?.username }}</td>
-              <td>{{ user?.email }}</td>
-              <td>
-                <button (click)="allowUser(user)" class="btn btn-success">Allow</button>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-      </tab>
-    </tabset>
+          </table>
+        </tab>
+      </tabset>
+    </div>
   </div>
 </div>

@@ -46,6 +46,10 @@ p {
     float:right;
 }
 
+.btn {
+    margin-left: 2px;
+}
+
 @media only screen and (max-width: 480px) {
 
     .logo {

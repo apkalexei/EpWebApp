@@ -18,7 +18,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private notifyService: NotifyService,
-    private authService: AuthService) { }
+    private authService: AuthService) {}
 
   ngOnInit() {
 
@@ -38,6 +38,8 @@ export class UserListComponent implements OnInit {
       }, error => {
         this.notifyService.error('Could not retrieve list of all users. Try again.');
       });
+      console.log(this.UsersToAllow);
+      console.log(this.AllUsers);
   }
 
   allowUser(user: UserToList) {
@@ -46,9 +48,14 @@ export class UserListComponent implements OnInit {
       .subscribe(res => {
         this.notifyService.success('User ' + user.username + ' allowed.');
         this.removeUserFromUsersToAllow(user.id);
+        console.log(this.UsersToAllow);
       }, error => {
         this.notifyService.error(error);
       });
+  }
+
+  changePassword() {
+    this.notifyService.error('Not implemented exception. (client side)');
   }
 
   deleteUser(user: UserToList) {
@@ -62,6 +69,12 @@ export class UserListComponent implements OnInit {
           this.removeUserFromUsersToAllow(user.id);
         })
     }
+  }
+
+  isUserListEmpty() {
+    if (this.UsersToAllow.length < 1)
+        return true;
+    return false;
   }
 
   private removeUserFromAllUsers(userId: number) {

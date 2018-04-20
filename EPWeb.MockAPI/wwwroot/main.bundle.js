@@ -152,10 +152,19 @@ var AdminService = /** @class */ (function () {
         this.baseUrl = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].apiUrl;
     }
     AdminService.prototype.getNotAllowedUsers = function () {
-        return this.authHttp.get(this.baseUrl + 'admin/users');
+        return this.authHttp.get(this.baseUrl + 'admin/usersToAllow');
+    };
+    AdminService.prototype.getAllUsers = function () {
+        return this.authHttp.get(this.baseUrl + 'admin/allUsers');
+    };
+    AdminService.prototype.deleteUser = function (id) {
+        return this.authHttp.delete(this.baseUrl + 'admin/users/delete/' + id, {
+            headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]()
+                .set('Content-Type', 'application/json')
+        });
     };
     AdminService.prototype.allowUser = function (id) {
-        return this.authHttp.post(this.baseUrl + 'admin/users/allow/' + id, {
+        return this.authHttp.put(this.baseUrl + 'admin/users/allow/' + id, {
             headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]()
                 .set('Content-Type', 'application/json')
         });
@@ -459,6 +468,9 @@ var ResourceService = /** @class */ (function () {
     ResourceService.prototype.getProductionGroup = function (resourceGroupId) {
         return this.authHttp.get(this.baseUrl + "resourceGroup/" + resourceGroupId);
     };
+    ResourceService.prototype.getResAllocDetail = function (resAllocId) {
+        return this.authHttp.get(this.baseUrl + "resourceAllocation/detail/" + resAllocId);
+    };
     ResourceService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClient */]])
@@ -479,6 +491,7 @@ var ResourceService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_list_user_list_component__ = __webpack_require__("../../../../../src/app/admin/user-list/user-list.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_admin_service__ = __webpack_require__("../../../../../src/app/_services/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -489,13 +502,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AdminModule = /** @class */ (function () {
     function AdminModule() {
     }
     AdminModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__["c" /* TabsModule */].forRoot(),
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_2__user_list_user_list_component__["a" /* UserListComponent */]
@@ -520,7 +535,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".user-list {\r\n    text-align: left;\r\n}\r\n\r\n.alert.alert-info {\r\n    text-align: center;\r\n}\r\n\r\n.container {\r\n    width: 80%;\r\n    max-width: 1000px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -533,7 +548,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/admin/user-list/user-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n  <h2>List of users waiting to be allowed</h2>\n\n  <table class=\"table\">\n\n    <thead>\n      <tr>\n        <th>ID</th>\n        <th>Username</th>\n        <th>Email</th>\n        <th></th>\n      </tr>\n    </thead>\n\n    <tbody *ngIf=\"Users\">\n      <tr *ngFor=\"let user of Users\">\n        <td>{{ user?.id }}</td>\n        <td>{{ user?.username }}</td>\n        <td>{{ user?.email }}</td>\n        <td>\n          <button (click)=\"allowUser(user)\" class=\"btn btn-success\">Allow</button>\n        </td>\n      </tr>\n    </tbody>\n\n    <tbody *ngIf=\"!Users\">\n      <td>There are no users waiting for approval!</td>\n    </tbody>\n\n  </table>\n  \n</div>\n"
+module.exports = "<div class=\"container\">\n  <div class=\"user-list\">\n\n    <h2><span class=\"glyphicon glyphicon-cog\" aria-hidden=\"true\"></span> Administration module</h2>\n    <div class=\"tab-panel\">\n      <tabset class=\"member-tabset\" #userTabs>\n\n        <tab heading=\"All users\">\n          <table class=\"table\">\n\n            <thead>\n              <tr>\n                <th>ID</th>\n                <th>Username</th>\n                <th>Email</th>\n                <th></th>\n              </tr>\n            </thead>\n\n            <tbody>\n              <tr *ngFor=\"let user of AllUsers\">\n                <td>{{ user?.id }}</td>\n                <td>{{ user?.username }}</td>\n                <td>{{ user?.email }}</td>\n                <td>\n                  <button (click)=\"deleteUser(user)\" class=\"btn btn-danger\">Delete</button>\n                  <button (click)=\"changePassword()\" class=\"btn btn-default\">Change password</button>\n                </td>\n              </tr>\n            </tbody>\n\n          </table>\n        </tab>\n\n        <tab heading=\"Users to allow\">\n          <table class=\"table\">\n\n            <thead>\n              <tr>\n                <th>ID</th>\n                <th>Username</th>\n                <th>Email</th>\n                <th></th>\n              </tr>\n            </thead>\n\n            <tbody>\n              <tr *ngFor=\"let user of UsersToAllow\">\n                <td>{{ user?.id }}</td>\n                <td>{{ user?.username }}</td>\n                <td>{{ user?.email }}</td>\n                <td>\n                  <button (click)=\"allowUser(user)\" class=\"btn btn-success\">Allow</button>\n                  <button (click)=\"deleteUser(user)\" class=\"btn btn-danger\">Delete</button>\n                </td>\n              </tr>\n            </tbody>\n\n          </table>\n        </tab>\n      </tabset>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -545,6 +560,7 @@ module.exports = "<div class=\"container\">\n\n  <h2>List of users waiting to be
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_admin_service__ = __webpack_require__("../../../../../src/app/_services/admin.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_notify_service__ = __webpack_require__("../../../../../src/app/_services/notify.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__("../../../../../src/app/_services/auth.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -557,20 +573,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var UserListComponent = /** @class */ (function () {
-    function UserListComponent(adminService, notifyService) {
+    function UserListComponent(adminService, notifyService, authService) {
         this.adminService = adminService;
         this.notifyService = notifyService;
+        this.authService = authService;
     }
     UserListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.adminService
             .getNotAllowedUsers()
             .subscribe(function (res) {
-            _this.Users = res;
+            _this.UsersToAllow = res;
         }, function (error) {
-            _this.notifyService.error('Could not retrieve list of users. Try again.');
+            _this.notifyService.error('Could not retrieve list of users to allow. Try again.');
         });
+        this.adminService
+            .getAllUsers()
+            .subscribe(function (res) {
+            _this.AllUsers = res;
+            _this.removeCurrentUserFromList();
+        }, function (error) {
+            _this.notifyService.error('Could not retrieve list of all users. Try again.');
+        });
+        console.log(this.UsersToAllow);
+        console.log(this.AllUsers);
     };
     UserListComponent.prototype.allowUser = function (user) {
         var _this = this;
@@ -578,11 +606,44 @@ var UserListComponent = /** @class */ (function () {
             .allowUser(user.id)
             .subscribe(function (res) {
             _this.notifyService.success('User ' + user.username + ' allowed.');
-            var index = _this.Users.findIndex(function (u) { return u.id == user.id; });
-            _this.Users.splice(index, 1);
+            _this.removeUserFromUsersToAllow(user.id);
+            console.log(_this.UsersToAllow);
         }, function (error) {
-            _this.notifyService.error('User could not be allowed. Try again.');
+            _this.notifyService.error(error);
         });
+    };
+    UserListComponent.prototype.changePassword = function () {
+        this.notifyService.error('Not implemented exception. (client side)');
+    };
+    UserListComponent.prototype.deleteUser = function (user) {
+        var _this = this;
+        if (confirm("Are you sure?")) {
+            this.adminService
+                .deleteUser(user.id)
+                .subscribe(function (res) {
+                _this.notifyService.success('User ' + user.username + ' deleted.');
+                _this.removeUserFromAllUsers(user.id);
+                _this.removeUserFromUsersToAllow(user.id);
+            });
+        }
+    };
+    UserListComponent.prototype.isUserListEmpty = function () {
+        if (this.UsersToAllow.length < 1)
+            return true;
+        return false;
+    };
+    UserListComponent.prototype.removeUserFromAllUsers = function (userId) {
+        var index = this.AllUsers.findIndex(function (u) { return u.id == userId; });
+        this.AllUsers.splice(index, 1);
+    };
+    UserListComponent.prototype.removeUserFromUsersToAllow = function (userId) {
+        var index = this.UsersToAllow.findIndex(function (u) { return u.id == userId; });
+        this.UsersToAllow.splice(index, 1);
+    };
+    UserListComponent.prototype.removeCurrentUserFromList = function () {
+        var userId = this.authService.currentUser.id;
+        var index = this.AllUsers.findIndex(function (u) { return u.id == userId; });
+        this.AllUsers.splice(index, 1);
     };
     UserListComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -590,7 +651,9 @@ var UserListComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/admin/user-list/user-list.component.html"),
             styles: [__webpack_require__("../../../../../src/app/admin/user-list/user-list.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */], __WEBPACK_IMPORTED_MODULE_2__services_notify_service__["a" /* NotifyService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_admin_service__["a" /* AdminService */],
+            __WEBPACK_IMPORTED_MODULE_2__services_notify_service__["a" /* NotifyService */],
+            __WEBPACK_IMPORTED_MODULE_3__services_auth_service__["a" /* AuthService */]])
     ], UserListComponent);
     return UserListComponent;
 }());
@@ -985,7 +1048,7 @@ var appRoutes = [
     {
         path: 'admin',
         children: [
-            { path: 'usersToAllow', component: __WEBPACK_IMPORTED_MODULE_5__admin_user_list_user_list_component__["a" /* UserListComponent */] }
+            { path: 'users', component: __WEBPACK_IMPORTED_MODULE_5__admin_user_list_user_list_component__["a" /* UserListComponent */] }
         ]
     },
     {
@@ -1021,7 +1084,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/scheduler/scheduler.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"scheduler-header\">\r\n  <div class=\"search-again\">\r\n    <button type=\"submit\" class=\"btn btn-default\" (click)=\"searchAgain()\">\r\n      <span class=\"glyphicon glyphicon-repeat\"></span> Search again</button>\r\n  </div>\r\n  <div class=\"schedule-info\">\r\n    Schedule for\r\n    <strong>{{ productionGroupInfo?.name }} / {{ resourceDetail?.name }}</strong>\r\n  </div>\r\n</div>\r\n<div class=\"scheduler\">\r\n  <dx-scheduler [dataSource]=\"resAllocs\" [views]=\"adaptOptions.views\" [editing]=\"false\" [currentView]=\"adaptOptions.currentView\"\r\n    [currentDate]=\"searchDate\" [startDayHour]=\"SchedulerStartDayHour\" [endDayHour]=\"SchedulerEndDayHour\" [showAllDayPanel]=\"SchedulerAllDayPanel\"\r\n    [height]=\"adaptOptions.size\" [showCurrentTimeIndicator]=\"SchedulerShowCurrentTimeIndicator\" (onAppointmentFormCreated)=\"onAppointmentFormCreated($event)\">\r\n  </dx-scheduler>\r\n</div>\r\n"
+module.exports = "<div class=\"scheduler-header\">\r\n  <div class=\"search-again\">\r\n    <button type=\"submit\" class=\"btn btn-default\" (click)=\"searchAgain()\">\r\n      <span class=\"glyphicon glyphicon-repeat\"></span> Search again</button>\r\n  </div>\r\n  <div class=\"schedule-info\">\r\n    Schedule for\r\n    <strong>{{ productionGroupInfo?.name }} / {{ resourceDetail?.name }}</strong>\r\n  </div>\r\n</div>\r\n<div class=\"scheduler\">\r\n  <dx-scheduler [dataSource]=\"resAllocs\" [views]=\"adaptOptions.views\" [editing]=\"false\" [currentView]=\"adaptOptions.currentView\"\r\n    [currentDate]=\"searchDate\" [startDayHour]=\"SchedulerStartDayHour\" [endDayHour]=\"SchedulerEndDayHour\" [showAllDayPanel]=\"SchedulerAllDayPanel\" [firstDayOfWeek]=\"SchedulerFirstDayOfWeek\"\r\n    [height]=\"adaptOptions.size\" [showCurrentTimeIndicator]=\"SchedulerShowCurrentTimeIndicator\" (onAppointmentFormCreated)=\"onAppointmentFormCreated($event)\">\r\n  </dx-scheduler>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1070,6 +1133,7 @@ var SchedulerComponent = /** @class */ (function () {
         this.SchedulerEndDayHour = __webpack_require__("../../../../../src/assets/configuration.json").SchedulerEndDayHour;
         this.SchedulerAllDayPanel = __webpack_require__("../../../../../src/assets/configuration.json").SchedulerAllDayPanel;
         this.SchedulerShowCurrentTimeIndicator = __webpack_require__("../../../../../src/assets/configuration.json").SchedulerShowCurrentTimeIndicator;
+        this.SchedulerFirstDayOfWeek = __webpack_require__("../../../../../src/assets/configuration.json").SchedulerFirstDayOfWeek;
         this.searchParams = this.getSearchParams();
         this.resourceService
             .getResAllocsForGivenResource(this.searchParams.resource)
@@ -1130,21 +1194,17 @@ var SchedulerComponent = /** @class */ (function () {
         sendParams.searchAgain = true;
         this.router.navigate(["search", sendParams]);
     };
-    /* Creates custom appointment detail - to be done*/
+    /* Creates custom appointment detail */
     SchedulerComponent.prototype.onAppointmentFormCreated = function (data) {
+        var _this = this;
         var form = data.form;
-        /* data.appointmentData returns an object (appointment detail):
-    
-            endDate: "2018-04-06T09:30:00"
-            resAllocId: 1
-            resourceId: 1
-            startDate: "2018-04-06T07:30:00"
-            text: "Directing 1"
-    
-            So API end-point has to be build to join tables and return valid data across production entities to fill out this form.
-            Returned values from API will replace "value" fields below later.
-            
-        */
+        this.resourceService
+            .getResAllocDetail(data.appointmentData.resAllocId)
+            .subscribe(function (res) {
+            _this.resAllocDetail = res;
+        }, function (error) {
+            _this.notifyService.error("Error occured on retreiving resource allocation detail. Try again.");
+        });
         form.option("items", [{
                 label: {
                     text: "Date"
@@ -1170,7 +1230,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "productionId",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "XT-020485",
+                    value: this.resAllocDetail.prodId,
                 }
             }, {
                 label: {
@@ -1179,7 +1239,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "productionUnitId",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "Strasbourg",
+                    value: this.resAllocDetail.prodUnit,
                 }
             }, {
                 label: {
@@ -1188,7 +1248,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "productionStatus",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "Completed",
+                    value: this.resAllocDetail.prodStatus,
                 }
             }, {
                 label: {
@@ -1197,7 +1257,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "productionKind",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "Media news",
+                    value: this.resAllocDetail.prodKind,
                 }
             }, {
                 label: {
@@ -1206,7 +1266,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "customer",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "RTV Slovenija",
+                    value: this.resAllocDetail.customer,
                 }
             }, {
                 label: {
@@ -1215,7 +1275,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "contactPerson",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "Boštjan Veselič",
+                    value: this.resAllocDetail.contactPerson,
                 }
             }, {
                 label: {
@@ -1224,7 +1284,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "projectNote",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "",
+                    value: this.resAllocDetail.projectNote,
                 }
             }, {
                 label: {
@@ -1233,7 +1293,7 @@ var SchedulerComponent = /** @class */ (function () {
                 name: "noteForPlanning",
                 editorType: "dxTextBox",
                 editorOptions: {
-                    value: "",
+                    value: this.resAllocDetail.noteForPlanning,
                 }
             }
         ]);
@@ -1486,7 +1546,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".navbar {\r\n    max-height: 70px;\r\n}\r\n.dropdown-menu li, .dropdown-toggle {\r\n    cursor: pointer;\r\n}\r\n.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {\r\n    background: unset;\r\n}\r\n.container {\r\n    margin-top: 8px;\r\n}\r\n.navbar-right {\r\n    float: right;\r\n}\r\n.logo {\r\n    width: 204px;\r\n    height: 56px;\r\n    cursor: pointer;\r\n    background-image: url(data:image/png;base64,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)\r\n}\r\n.logo:focus {\r\n    outline: none;\r\n}\r\n.logout-collapsed {\r\n    display: none;\r\n}\r\n.logout-collapse {\r\n    margin-top: 8px;\r\n}\r\np {\r\n    color: #777;\r\n    margin-top: 15px;\r\n    margin-right: 10px;\r\n}\r\n.right {\r\n    float:right;\r\n}\r\n@media only screen and (max-width: 480px) {\r\n\r\n    .logo {\r\n        margin-left: 15px;\r\n    }\r\n    .logout-collapsed {\r\n        float: right;\r\n        display: unset;\r\n        margin-right: 8px;\r\n        margin-top: 10px;\r\n    }\r\n}", ""]);
+exports.push([module.i, ".navbar {\r\n    max-height: 70px;\r\n}\r\n.dropdown-menu li, .dropdown-toggle {\r\n    cursor: pointer;\r\n}\r\n.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {\r\n    background: unset;\r\n}\r\n.container {\r\n    margin-top: 8px;\r\n}\r\n.navbar-right {\r\n    float: right;\r\n}\r\n.logo {\r\n    width: 204px;\r\n    height: 56px;\r\n    cursor: pointer;\r\n    background-image: url(data:image/png;base64,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)\r\n}\r\n.logo:focus {\r\n    outline: none;\r\n}\r\n.logout-collapsed {\r\n    display: none;\r\n}\r\n.logout-collapse {\r\n    margin-top: 8px;\r\n}\r\np {\r\n    color: #777;\r\n    margin-top: 15px;\r\n    margin-right: 10px;\r\n}\r\n.right {\r\n    float:right;\r\n}\r\n.btn {\r\n    margin-left: 2px;\r\n}\r\n@media only screen and (max-width: 480px) {\r\n\r\n    .logo {\r\n        margin-left: 15px;\r\n    }\r\n    .logout-collapsed {\r\n        float: right;\r\n        display: unset;\r\n        margin-right: 8px;\r\n        margin-top: 10px;\r\n    }\r\n}", ""]);
 
 // exports
 
@@ -1499,7 +1559,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared-components/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\r\n  <div class=\"container\">\r\n    <div class=\"navbar-header\">\r\n\r\n      <div class=\"logout-collapsed\" *ngIf=\"loggedIn()\">\r\n          <button type=\"submit\" class=\"btn btn-default btn-sm navbar-right\" (click)=\"logout()\"><span class=\"glyphicon glyphicon-off\"></span></button>\r\n      </div>\r\n      \r\n      <div class=\"logo\" [routerLink]=\"['/search']\">\r\n      </div>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\" *ngIf=\"loggedIn()\">\r\n\r\n      <button type=\"submit\" class=\"btn btn-default logout-collapse right\" (click)=\"logout()\"><span class=\"glyphicon glyphicon-off\"></span> Logout</button>\r\n      <p class=\"right\">Signed in as <strong>{{ currentUser?.username }}</strong></p>\r\n\r\n    </div>\r\n  </div>\r\n</nav>\r\n"
+module.exports = "<nav class=\"navbar navbar-inverse\">\r\n  <div class=\"container\">\r\n    <div class=\"navbar-header\">\r\n\r\n      <div class=\"logout-collapsed\" *ngIf=\"loggedIn()\">\r\n          <button class=\"btn btn-default btn-sm navbar-right\" (click)=\"logout()\"><span class=\"glyphicon glyphicon-off\"></span></button>\r\n      </div>\r\n      \r\n      <div class=\"logo\" [routerLink]=\"['/search']\">\r\n      </div>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\" *ngIf=\"loggedIn()\">\r\n\r\n      <button [routerLink]=\"['/admin/users']\" routerLinkActive=\"router-link-active\" class=\"btn btn-default logout-collapse right\"><span class=\"glyphicon glyphicon-cog\"></span></button>\r\n      <button class=\"btn btn-default logout-collapse right\" (click)=\"logout()\"><span class=\"glyphicon glyphicon-off\"></span> Logout</button>\r\n      <p class=\"right\">Signed in as <strong>{{ currentUser?.username }}</strong></p>\r\n\r\n    </div>\r\n  </div>\r\n</nav>\r\n"
 
 /***/ }),
 
@@ -1617,7 +1677,7 @@ var SharedComponentsModule = /** @class */ (function () {
 /***/ "../../../../../src/assets/configuration.json":
 /***/ (function(module, exports) {
 
-module.exports = {"DevelopmentApiAdress":"http://localhost:5000/api/","ProductionApiAdress":"api/","SchedulerStartDayHour":"7","SchedulerEndDayHour":"24","SchedulerAllDayPanel":false,"SchedulerShowCurrentTimeIndicator":true,"SchedulerLargeSizeViews":["day","week","workWeek","month"],"SchedulerLargeSizeCurrentView":"week","SchedulerSmallSizeViews":["agenda"],"SchedulerSmallSizeCurrentView":"agenda"}
+module.exports = {"DevelopmentApiAdress":"http://localhost:5000/api/","ProductionApiAdress":"api/","SchedulerStartDayHour":"7","SchedulerEndDayHour":"24","SchedulerAllDayPanel":false,"SchedulerShowCurrentTimeIndicator":true,"SchedulerLargeSizeViews":["day","week","workWeek","month"],"SchedulerLargeSizeCurrentView":"week","SchedulerSmallSizeViews":["agenda"],"SchedulerSmallSizeCurrentView":"agenda","SchedulerFirstDayOfWeek":"1"}
 
 /***/ }),
 
