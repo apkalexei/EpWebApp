@@ -26,12 +26,14 @@ export const appRoutes: Routes = [
     },
     {
         path: 'admin',
+        canActivate: [AuthGuard],
         children: [
             { path: 'users', component: UserListComponent }
         ]
     },
     { 
         path: '**', 
+        canActivate: [AuthGuard],
         redirectTo: 'search', 
         pathMatch: 'full' 
     }
