@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EPWeb.MockAPI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin user, Super Admin user")]
     [Route("api/[controller]")]
     public class AdminController : Controller
     {

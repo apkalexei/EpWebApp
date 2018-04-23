@@ -8,13 +8,14 @@ namespace EPWeb.MockAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("INSERT INTO Roles (Name) VALUES ('Normal')");
-            migrationBuilder.Sql("INSERT INTO Roles (Name) VALUES ('Admin')");
+            migrationBuilder.Sql("INSERT INTO Roles (Name) VALUES ('Super Admin user')");
+            migrationBuilder.Sql("INSERT INTO Roles (Name) VALUES ('Admin user')");
+            migrationBuilder.Sql("INSERT INTO Roles (Name) VALUES ('Normal user')");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DELETE FROM Roles WHERE Name IN ('Normal', 'Admin')");
+            migrationBuilder.Sql("DELETE FROM Roles WHERE Name IN ('Normal user', 'Admin user', 'Super Admin user')");
         }
     }
 }

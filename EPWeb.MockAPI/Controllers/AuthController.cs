@@ -41,7 +41,7 @@ namespace EPWeb.MockAPI.Controllers
             var userToCreate = new User
             {
                 Username = userForRegisterDto.Username,
-                Email = userForRegisterDto.Email
+                Email = userForRegisterDto.Email,
             };
 
             var createUser = await _repository.Register(userToCreate, userForRegisterDto.Password);
@@ -72,7 +72,7 @@ namespace EPWeb.MockAPI.Controllers
 
             var user = _mapper.Map<UserForReturnDto>(userFromRepo);
 
-            return Ok(new { tokenString, user });
+            return Ok(new { tokenString, user, roles });
         }
 
     }
