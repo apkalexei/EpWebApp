@@ -16,6 +16,7 @@ export class AuthService {
 
     private baseUrl = environment.apiUrl;
     private ngSystemVersion = environment.ngVersion;
+    userRoles: string[];
     currentUser: User;
     userToken: any;
     decodedToken: any;
@@ -31,9 +32,11 @@ export class AuthService {
                 if (user) {
                     localStorage.setItem('token', user.tokenString);
                     localStorage.setItem('user', JSON.stringify(user.user));
+                    localStorage.setItem('roles', JSON.stringify(user.roles));
                     this.decodedToken = this.jwtHelperService.decodeToken(user.tokenString);
                     this.currentUser = user.user;
                     this.userToken = user.tokenString;
+                    this.userRoles = user.roles;
                 }});
     }
 
@@ -56,6 +59,14 @@ export class AuthService {
             return false;
         }
         return !this.jwtHelperService.isTokenExpired(token);
+    }
+
+    isAdmin() {
+        return (this.userRoles.indexOf('Admin user') > -1)
+    }
+
+    isSuperAdmin() {
+        return (this.userRoles.indexOf('Super Admin user') > -1)
     }
 
 }

@@ -1,15 +1,17 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using AutoMapper;
 using EPWeb.MockAPI.Data;
 using EPWeb.MockAPI.DTOs;
+using EPWeb.MockAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EPWeb.MockAPI.Controllers
 {
-    [Authorize(Roles = "Admin user, Super Admin user")]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin user, Super Admin user")]
     public class AdminController : Controller
     {
         private readonly IAdminRepository _repository;

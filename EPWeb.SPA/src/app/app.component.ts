@@ -32,11 +32,17 @@ export class AppComponent {
   ngOnInit() {
     const token = localStorage.getItem('token');
     const user: User = JSON.parse(localStorage.getItem('user'));
+    const roles: string[] = JSON.parse(localStorage.getItem('roles'));
+
     if (token) {
       this.authService.decodedToken = this.jwtHelperService.decodeToken(token);
     }
     if (user) {
       this.authService.currentUser = user;
     }
+    if (roles) {
+      this.authService.userRoles = roles;
+    }
+
   }
 }

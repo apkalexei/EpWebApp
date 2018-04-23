@@ -32,6 +32,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 // custom guards
 import { AuthGuard } from './_guards/auth.guard';
+import { AdminGuard } from './_guards/admin.guard';
 
 // 3RD party modules
 import { BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
@@ -76,6 +77,7 @@ export function tokenGetter() {
     AdaptService,
     AuthService,
     AuthGuard,
+    AdminGuard,
     NotifyService,
     DatePipe,
     ErrorInterceptorProvider

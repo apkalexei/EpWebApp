@@ -46,8 +46,11 @@ namespace EPWeb.MockAPI.Controllers
 
             var createUser = await _repository.Register(userToCreate, userForRegisterDto.Password);
 
-            if (await _repository.SaveAll())
-                return StatusCode(201); 
+            if (await _repository.SaveAll()) 
+            {
+                _repository.SetDefaultRole(createUser.Id);
+                return StatusCode(201);
+            }
 
             return BadRequest("Could not create a new user.");
         }

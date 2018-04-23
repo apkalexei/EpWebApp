@@ -19,6 +19,9 @@ namespace EPWeb.MockAPI.Data
          string GenerateJWTToken(int id, string username, List<string> roles);
 
          List<string> GetRoles(User user);
+
+         void SetDefaultRole(int userId);
+
          Task<bool> SaveAll();
     }
 }

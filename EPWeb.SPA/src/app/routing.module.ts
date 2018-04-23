@@ -1,3 +1,4 @@
+import { AdminGuard } from './_guards/admin.guard';
 import { AuthComponent } from './auth/auth.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SearchComponent } from './search/search.component';
@@ -26,7 +27,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'admin',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, AdminGuard],
         children: [
             { path: 'users', component: UserListComponent }
         ]

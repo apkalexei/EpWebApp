@@ -63,7 +63,7 @@ namespace EPWeb.MockAPI.Data
             return await _context.Users.AnyAsync(x => x.Email == email) ? true : false;
         }
 
-        public async Task<bool> IsUserAllowed(int id) 
+        public async Task<bool> IsUserAllowed(int id)
         {
             return await _context.Users.AnyAsync(u => u.Id == id && u.IsAllowed == true);
         }
@@ -88,6 +88,8 @@ namespace EPWeb.MockAPI.Data
                 tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, role));
             }
 
+            //tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, "Administrator"));
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
@@ -101,10 +103,19 @@ namespace EPWeb.MockAPI.Data
             {
                 roles.Add(role.Role.Name);
             }
-
             return roles;
         }
 
+        public async void SetDefaultRole(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var role = await _context.Roles.FirstOrDefaultAsync(x => x.Name == _config.GetSection("AppSettings:DefaultRole").Value);
+            var userRole = new UserRoles() { User = user, Role = role };
+
+            user.Roles.Add(userRole);
+
+            await _context.SaveChangesAsync();
+        }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
