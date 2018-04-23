@@ -21,6 +21,7 @@ export class FooterComponent implements OnInit {
     this.ngVersion = this.authService.getNgSystemVersion();
   }
 
+  /* if users is signed-in, this will display his name on the top */
   loggedIn() {
     this.currentUser = this.authService.currentUser;
     return this.authService.loggedIn();

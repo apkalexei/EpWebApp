@@ -11,6 +11,10 @@ import {
   
   @Injectable()
   export class ErrorInterceptor implements HttpInterceptor {
+
+    /* Class responsible for error handling in HttpClient requests,
+     checks of there are any application error and if not, checks if there are any server errors and return them to user */
+
     intercept(
       req: HttpRequest<any>,
       next: HttpHandler

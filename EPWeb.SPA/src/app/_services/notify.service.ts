@@ -5,6 +5,9 @@ import notify from 'devextreme/ui/notify';
 @Injectable()
 export class NotifyService {
 
+    /* This service is using notifications from DevExtreme components, it is possible 
+    to pass a message inside of these methods and display information to the user */
+
     adaptOptions: any;
 
     constructor(private adaptService: AdaptService) {

@@ -14,6 +14,9 @@ import { ApiVersion } from '../_models/system/apiVersion';
 @Injectable()
 export class AuthService {
 
+    /* Service responsible for register, login and managing localstorage items such as token, user, roles. 
+    This service also returns boolens if users token is valid or not or if given user is Admin, Super Admin or Normal user */
+
     private baseUrl = environment.apiUrl;
     private ngSystemVersion = environment.ngVersion;
     userRoles: string[];
@@ -23,6 +26,7 @@ export class AuthService {
 
     constructor(private http: HttpClient, private jwtHelperService: JwtHelperService) { }
 
+    /* Sign-in to the system (called in auth.component.ts), returns JWT Token, User object and Role array, stores those variables and stores them also in browser localstorage */
     login(model: any) {
         return this.http.post<AuthUser>(this.baseUrl + 'auth/login', model, {
             headers: new HttpHeaders()
@@ -40,19 +44,23 @@ export class AuthService {
                 }});
     }
 
+    /* Register user (called in auth.component.ts), can return errors such as Email Adress is already taken or Username is already taken */
     register(user: UserForRegistration) {
         return this.http.post(this.baseUrl + 'auth/register', user, { headers: new HttpHeaders()
                 .set('Content-Type', 'application/json')});
     }
 
+    /* Gets system version of API and displays this information on the bottom, only on larger screens */
     getApiSystemVersion() {
         return this.http.get<ApiVersion>(this.baseUrl + 'admin/version');
     }
 
+    /* Gets system version of Angular and displays this information on the bottom, only on larger screens */
     getNgSystemVersion() {
         return this.ngSystemVersion;
     }
 
+    /* Returns boolean representing information about user logged-in status */
     loggedIn() {
         const token = this.jwtHelperService.tokenGetter();
         if (!token) {
@@ -61,10 +69,12 @@ export class AuthService {
         return !this.jwtHelperService.isTokenExpired(token);
     }
 
+    /* Returns boolean representing information if given user has 'Admin user' role */
     isAdmin() {
         return (this.userRoles.indexOf('Admin user') > -1)
     }
 
+    /* Returns boolean representing information if given user has 'Super Admin user' role */
     isSuperAdmin() {
         return (this.userRoles.indexOf('Super Admin user') > -1)
     }

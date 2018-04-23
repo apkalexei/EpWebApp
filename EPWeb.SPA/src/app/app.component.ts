@@ -29,6 +29,8 @@ export class AppComponent {
     this.adaptService.setAdaptValue();
   }
 
+  /* This method is called when app is loaded to the browser, it checks if there is any information stored in browser and if yes,
+    then those variables are also stored inside of the auth.service.ts */
   ngOnInit() {
     const token = localStorage.getItem('token');
     const user: User = JSON.parse(localStorage.getItem('user'));

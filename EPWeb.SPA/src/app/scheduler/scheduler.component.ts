@@ -130,6 +130,8 @@ export class SchedulerComponent implements OnInit {
       });
   }
 
+  /* This method needs to be extracted from onAppointmentFormCreated(data) method because of detail loading issues, otherwise first detail would be empty */
+  /* Building DevExtreme components dynamically */
   createDetailForm(data) {
 
     var form = data.form;

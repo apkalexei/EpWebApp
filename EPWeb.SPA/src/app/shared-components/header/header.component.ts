@@ -29,11 +29,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/auth"]);
   }
 
+  /* if users is signed-in, this will display his name on the bottom (for phones) */
   loggedIn() {
     this.currentUser = this.authService.currentUser;
     return this.authService.loggedIn();
   }
 
+  /* if user has admin permissions, this will allow him to see administration button */
   isAdmin() {
     return this.authService.isAdmin();
   }

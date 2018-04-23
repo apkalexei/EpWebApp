@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
+  /* Checks if signed user has any permission to access the application */
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {

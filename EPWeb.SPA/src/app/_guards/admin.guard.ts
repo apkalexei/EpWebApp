@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AdminGuard implements CanActivate {
 
+  /* Checks if signed user has 'Admin' permission to access certain parts of the application */
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
