@@ -63,10 +63,10 @@ namespace EPWeb.MockAPI.Controllers
 
             var userFromRepo = await _repository.Login(userForLoginDto.Username, userForLoginDto.Password);
 
-            var roles = _repository.GetRoles(userFromRepo);
-
             if (userFromRepo == null)
                 return Unauthorized();
+
+            var roles = _repository.GetRoles(userFromRepo);
 
             if (!await _repository.IsUserAllowed(userFromRepo.Id))
                 return BadRequest("Entered user has not been allowed by the system administrator yet");
