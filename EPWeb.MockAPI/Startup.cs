@@ -54,7 +54,6 @@ namespace EPWeb.MockAPI
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
-
                     };
                 });
         }

@@ -67,7 +67,7 @@ namespace EPWeb.MockAPI.Data
             return await _context.Users.AnyAsync(u => u.Id == id && u.IsAllowed == true);
         }
 
-        public string GenerateJWTToken(int id, string username)
+        public string GenerateJWTToken(int id, string username, List<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_config.GetSection("AppSettings:Token").Value);
@@ -76,14 +76,32 @@ namespace EPWeb.MockAPI.Data
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-                    new Claim(ClaimTypes.Name, username)
+                    new Claim(ClaimTypes.Name, username),
                 }),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
+
+            foreach (var role in roles)
+            {
+                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        /* Method which parses roles from user into string List which is lately used for creating Role Claims inside of GenerateJWTToken method */
+        public List<string> GetRoles(User user)
+        {
+            var roles = new List<string>();
+            foreach (var role in user.Roles)
+            {
+                roles.Add(role.Role.Name);
+            }
+
+            return roles;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
