@@ -120,15 +120,19 @@ export class SchedulerComponent implements OnInit {
   /* Creates custom appointment detail */
   onAppointmentFormCreated(data) {
 
-    var form = data.form;
     this.resourceService
       .getResAllocDetail(data.appointmentData.resAllocId)
       .subscribe(res => {
         this.resAllocDetail = res;
+        this.createDetailForm(data);
       }, error => {
         this.notifyService.error("Error occured on retreiving resource allocation detail. Try again.")
       });
+  }
 
+  createDetailForm(data) {
+
+    var form = data.form;
     form.option("items", [{
 
       label: {
