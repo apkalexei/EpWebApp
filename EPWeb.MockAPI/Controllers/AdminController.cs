@@ -35,18 +35,6 @@ namespace EPWeb.MockAPI.Controllers
             return Ok(usersToreturn);
         }
 
-        [HttpGet("usersToAllow")]
-        public async Task<IActionResult> GetNotAllowedUsers([FromQuery] UserParams userparams) 
-        {
-            var usersFromRepo = await _repository.GetNotAllowedUsers(userparams);
-
-            var usersToReturn = _mapper.Map<ICollection<UserForAdminListDto>>(usersFromRepo);
-
-            Response.AddPagination(usersFromRepo.CurrentPage, usersFromRepo.PageSize, usersFromRepo.TotalCount, usersFromRepo.TotalPages);
-
-            return Ok(usersToReturn);
-        }
-
         [HttpPut("users/allow/{id}")]
         public async Task<IActionResult> AllowUser(int id)
         {

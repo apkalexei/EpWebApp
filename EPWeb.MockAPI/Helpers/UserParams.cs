@@ -10,6 +10,7 @@ namespace EPWeb.MockAPI.Helpers
             get { return pageSize;}
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value ;}
         }
-        
+
+        public bool OnlyNotAllowed { get; set; }
     }
 }

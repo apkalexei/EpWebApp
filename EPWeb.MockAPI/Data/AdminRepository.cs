@@ -23,18 +23,16 @@ namespace EPWeb.MockAPI.Data
 
         public async Task<PagedList<User>> GetAllUsers(UserParams userParams)
         {
-            var users = _context.Users;
+            var users = _context.Users.OrderByDescending(x => x.Id).AsQueryable();
 
+            if (userParams.OnlyNotAllowed)
+            {
+                users = users.Where(x => x.IsAllowed == false);
+            }
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
+
         }
-
-        public async Task<PagedList<User>> GetNotAllowedUsers(UserParams userParams)
-        {
-            var users = _context.Users.Where(x => x.IsAllowed == false);
-
-            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
-        }
-
+        
         public async Task<bool> ChangePassword(int userId, string password)
         {
             var user = await GetUser(userId);
@@ -56,7 +54,7 @@ namespace EPWeb.MockAPI.Data
 
         public void DeleteUser(User user)
         {
-             _context.Remove(user);
+            _context.Remove(user);
         }
 
         public string GetSystemVersionString()

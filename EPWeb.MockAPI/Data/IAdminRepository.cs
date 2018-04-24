@@ -9,8 +9,6 @@ namespace EPWeb.MockAPI.Data
     {
          string GetSystemVersionString();
 
-         Task<PagedList<User>> GetNotAllowedUsers(UserParams userParams);
-
          Task<PagedList<User>> GetAllUsers(UserParams userParams);
 
          Task<User> GetUser(int id);
