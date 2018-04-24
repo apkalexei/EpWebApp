@@ -20,11 +20,6 @@ namespace EPWeb.MockAPI.Data
             return user;
         }
 
-        public void DeleteUser(User user)
-        {
-             _context.Remove(user);
-        }
-
         public async Task<ICollection<User>> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();
@@ -37,6 +32,30 @@ namespace EPWeb.MockAPI.Data
             return users;
         }
 
+        public async Task<bool> ChangePassword(int userId, string password)
+        {
+            var user = await GetUser(userId);
+
+            if (user == null)
+                return false;
+
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            user.PasswordSalt = passwordSalt;
+            user.PasswordHash = passwordHash;
+
+            if (await SaveAll())
+                return true;
+
+            return false;
+        }
+
+        public void DeleteUser(User user)
+        {
+             _context.Remove(user);
+        }
+
         public string GetSystemVersionString()
         {
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -46,6 +65,15 @@ namespace EPWeb.MockAPI.Data
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

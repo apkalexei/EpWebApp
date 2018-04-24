@@ -14,6 +14,8 @@ namespace EPWeb.MockAPI.Data
 
          Task<User> GetUser(int id);
 
+         Task<bool> ChangePassword(int userId, string password);
+
          void DeleteUser(User user);
 
          Task<bool> SaveAll();

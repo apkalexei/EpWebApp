@@ -56,9 +56,21 @@ namespace EPWeb.MockAPI.Controllers
             userFromRepo.IsAllowed = true;
 
             if (await _repository.SaveAll())
-                return Ok();
+                return NoContent();
 
             return BadRequest($"Failed to allow user with ID of {id}");
+        }
+
+        [HttpPut("users/changePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] UserChangePassword user)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (await _repository.ChangePassword(user.Id, user.Password))
+                return NoContent();
+
+            return BadRequest($"Failed to change password for User with ID of {user.Id}");
         }
 
         [HttpDelete("users/delete/{id}")]
