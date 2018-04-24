@@ -1,7 +1,8 @@
 import { UserToList } from './../_models/user/UserToList';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { PaginatedResult } from '../_models/system/pagination';
 
 @Injectable()
 export class AdminService {
@@ -12,14 +13,31 @@ export class AdminService {
 
     constructor(private authHttp: HttpClient) { }
 
-    /* Gets only users who are waiting to be allowed */
-    getNotAllowedUsers() {
-        return this.authHttp.get<UserToList[]>(this.baseUrl + 'admin/usersToAllow');
-    }
+    /* Gets all users */
+    getAllUsers(page?, itemsPerPage?, onlyNotAllowed?: any) {
 
-    /* Gets all users, including users who are waiting to be allowed */
-    getAllUsers() {
-        return this.authHttp.get<UserToList[]>(this.baseUrl + 'admin/allUsers');
+        const paginatedResult: PaginatedResult<UserToList[]> = new PaginatedResult<UserToList[]>();
+        let params = new HttpParams();
+
+        if (page != null && itemsPerPage != null) {
+            params = params.append('pageNumber', page);
+            params = params.append('pageSize', itemsPerPage);
+        }
+
+        /* if true, then only not allowed users are returned from API */
+        if (onlyNotAllowed == true) {
+            params = params.append('onlyNotAllowed', onlyNotAllowed);
+        }
+
+        return this.authHttp
+            .get<UserToList[]>(this.baseUrl + 'admin/allUsers', { observe: 'response', params })
+            .map(response => {
+                paginatedResult.result = response.body;
+                if (response.headers.get('Pagination') != null) {
+                    paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+                }
+                return paginatedResult;
+            })
     }
 
     /* Delete specific user */
