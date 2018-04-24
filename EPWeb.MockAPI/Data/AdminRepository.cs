@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EPWeb.MockAPI.Helpers;
 using EPWeb.MockAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,16 +21,18 @@ namespace EPWeb.MockAPI.Data
             return user;
         }
 
-        public async Task<ICollection<User>> GetAllUsers()
+        public async Task<PagedList<User>> GetAllUsers(UserParams userParams)
         {
-            var users = await _context.Users.ToListAsync();
-            return users;
+            var users = _context.Users;
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
-        public async Task<ICollection<User>> GetNotAllowedUsers()
+        public async Task<PagedList<User>> GetNotAllowedUsers(UserParams userParams)
         {
-            var users = await _context.Users.Where(x => x.IsAllowed == false).ToListAsync();
-            return users;
+            var users = _context.Users.Where(x => x.IsAllowed == false);
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> ChangePassword(int userId, string password)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EPWeb.MockAPI.Helpers;
 using EPWeb.MockAPI.Models;
 
 namespace EPWeb.MockAPI.Data
@@ -8,9 +9,9 @@ namespace EPWeb.MockAPI.Data
     {
          string GetSystemVersionString();
 
-         Task<ICollection<User>> GetNotAllowedUsers();
+         Task<PagedList<User>> GetNotAllowedUsers(UserParams userParams);
 
-         Task<ICollection<User>> GetAllUsers();
+         Task<PagedList<User>> GetAllUsers(UserParams userParams);
 
          Task<User> GetUser(int id);
 

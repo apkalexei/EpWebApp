@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EPWeb.MockAPI.Data;
 using EPWeb.MockAPI.DTOs;
+using EPWeb.MockAPI.Helpers;
 using EPWeb.MockAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,21 +24,25 @@ namespace EPWeb.MockAPI.Controllers
         }
 
         [HttpGet("allUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers([FromQuery] UserParams userparams)
         {
-            var usersFromRepo = await _repository.GetAllUsers();
+            var usersFromRepo = await _repository.GetAllUsers(userparams);
 
             var usersToreturn = _mapper.Map<ICollection<UserForAdminListDto>>(usersFromRepo);
+
+            Response.AddPagination(usersFromRepo.CurrentPage, usersFromRepo.PageSize, usersFromRepo.TotalCount, usersFromRepo.TotalPages);
 
             return Ok(usersToreturn);
         }
 
         [HttpGet("usersToAllow")]
-        public async Task<IActionResult> GetNotAllowedUsers() 
+        public async Task<IActionResult> GetNotAllowedUsers([FromQuery] UserParams userparams) 
         {
-            var usersFromRepo = await _repository.GetNotAllowedUsers();
+            var usersFromRepo = await _repository.GetNotAllowedUsers(userparams);
 
             var usersToReturn = _mapper.Map<ICollection<UserForAdminListDto>>(usersFromRepo);
+
+            Response.AddPagination(usersFromRepo.CurrentPage, usersFromRepo.PageSize, usersFromRepo.TotalCount, usersFromRepo.TotalPages);
 
             return Ok(usersToReturn);
         }
