@@ -20,6 +20,7 @@ footer {
 
 @media only screen and (max-width: 480px) {
     footer {
+        position: unset;
         height: 50px;
         padding-top: 9px;
     }

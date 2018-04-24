@@ -3,6 +3,7 @@
     <div class="navbar-header">
 
       <div class="logout-collapsed" *ngIf="loggedIn()">
+          <button *ngIf="isAdmin()" class="btn btn-default btn-sm navbar-right" [routerLink]="['/admin/users']" routerLinkActive="router-link-active"><span class="glyphicon glyphicon-cog"></span></button>
           <button class="btn btn-default btn-sm navbar-right" (click)="logout()"><span class="glyphicon glyphicon-off"></span></button>
       </div>
       
@@ -11,7 +12,7 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse" *ngIf="loggedIn()">
 
-      <button *ngIf="isAdmin()" [routerLink]="['/admin/users']" routerLinkActive="router-link-active" class="btn btn-default logout-collapse right"><span class="glyphicon glyphicon-cog"></span></button>
+      <button *ngIf="isAdmin()" [routerLink]="['/admin/users']" routerLinkActive="router-link-active" class="btn btn-default logout-collapse right"><span class="glyphicon glyphicon-cog"></span> Administration</button>
       <button class="btn btn-default logout-collapse right" (click)="logout()"><span class="glyphicon glyphicon-off"></span> Logout</button>
       <p class="right">Signed in as <strong>{{ currentUser?.username }}</strong></p>
 

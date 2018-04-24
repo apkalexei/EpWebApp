@@ -14,7 +14,7 @@ export class AdaptService {
     smallSize: any = {
         views: require('../../assets/configuration.json').SchedulerSmallSizeViews,
         currentView: require('../../assets/configuration.json').SchedulerSmallSizeCurrentView,
-        size: "350",
+        size: "400",
         notifyPosition: "bottom"
     }
 

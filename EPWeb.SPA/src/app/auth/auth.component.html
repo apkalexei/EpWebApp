@@ -100,8 +100,10 @@
         <!-- AFTER REGISTER NOTIFICATION -->
         <div class="alert alert-success" [hidden]="!isRegistered">
           <p>
-            <strong>Registration was successful.</strong> Your account needs to be verified by system administrator to be able to
-            sign into the system. We will contact you on your email adress.</p>
+            Registration was successful.<br>
+            Your username is <strong>{{ registerForm.value.username | lowercase }}</strong><br>
+            Your account needs to be verified by system administrator to be able to
+            sign into the system.</p>
         </div>
 
       </tab>
