@@ -25,7 +25,7 @@
                 <td>{{ user?.email }}</td>
                 <td>
                   <button [disabled]="isUserCurrentUser(user?.id)" (click)="deleteUser(user)" class="btn btn-danger">Delete</button>
-                  <button (click)="changePassword()" class="btn btn-default">Change password</button>
+                  <!-- <button (click)="changePassword()" class="btn btn-default">Change password</button> -->  <!-- Back-end připraven, ale chybí implementace na front-endu -->
                 </td>
               </tr>
             </tbody>
